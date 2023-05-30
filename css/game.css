@@ -1,0 +1,232 @@
+.scale-down {
+  transform: scale(0);
+  transition: transform 200ms ease;
+}
+
+.game-page-container {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#start-container,
+#game-container,
+#after-answer-container,
+.end-game-container,
+.after-regular-game-start,
+.after-tournament-start{
+  margin-top: 8rem;
+  width: 40%;
+  text-align: center;
+}
+
+#start-container button,
+.next-question-btn,
+.next-game-btn,
+.add-question-after-game-btn {
+  color: #ecf8f7;
+  background-color: #0294a2;
+  padding: 0.5rem 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 900;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.next-game-btn,
+.add-question-after-game-btn {
+  font-size: 0.8rem;
+}
+
+#start-container button:active,
+.next-question-btn:active {
+  transform: scale(98%);
+}
+
+#start-container a {
+  color: #0294a2;
+  text-decoration: none;
+}
+
+#start-container a:hover {
+  border-bottom: 1px solid #0294a2;
+}
+
+.choose-game-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 3vh;
+  margin-top: 4rem;
+}
+
+#game-container .answer-btn-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.question-and-report {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+#game-container p {
+  text-align: start;
+  margin: 0;
+}
+
+.answer-btn {
+  height: 2rem;
+  font-size: 0.9rem;
+  color: #111;
+  background-color: #fff;
+  border: 2px solid #333;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  text-align: start;
+  padding: 8px 10px 32px 10px;
+  cursor: pointer;
+  transition: 200ms all ease-in-out;
+}
+
+.answer-btn:active {
+  transform: scale(98%);
+}
+
+.game-page-container {
+  transition: translate 2s ease;
+}
+
+.game-footer-top,
+.game-footer-bottom {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.after-answer-text {
+  font-size: 1.4rem;
+}
+
+.smaller {
+  font-size: 0.8rem;
+}
+
+.report-btn {
+  color: #f10000;
+  border-bottom: 1px solid transparent;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.report-btn:hover {
+  border-bottom: 1px solid #f10000;
+}
+
+.make-it-green {
+  border: 2px solid #00c200;
+  transform: scale(1.02);
+  transition: 200ms ease;
+}
+
+.make-it-red {
+  border: 2px solid #f10000;
+  transform: scale(1.02);
+  transition: 200ms ease;
+}
+
+.disable-pointer-events {
+  pointer-events: none;
+}
+
+.end-game-btn-container {
+  width: 100%;
+}
+
+.game-btns {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.add-question-after-game-btn {
+  width: 100%;
+}
+
+.add-question-after-game-btn a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.report-pop-up {
+  width: 80vw;
+}
+
+.report-question-form {
+  width: 90%;
+  padding: 1rem;
+}
+
+.report-options,
+.report-question-form input {
+  width: 100%;
+  height: 3rem;
+  padding-right: 0.5rem;
+  margin: 0.5rem 0 0 0;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  caret-color: #0294a2;
+  transition: border 80ms ease;
+}
+
+.report-solution {
+  font-size: 0.8rem;
+}
+
+.report-options:focus,
+.report-question-form input:focus {
+  border: 2px solid #0294a2;
+}
+
+.report-question-btn {
+  font-size: 1rem;
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  color: #ecf8f7;
+  background: #0294a2;
+}
+
+@media screen and (max-width: 700px) {
+  #start-container,
+  #game-container,
+  #after-answer-container,
+  .end-game-container,
+  .after-regular-game-start,
+  .after-tournament-start {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .after-answer-text {
+    font-size: 1rem;
+  }
+
+  .next-question-btn {
+    font-size: 0.8rem;
+  }
+
+  .smaller {
+    font-size: 0.5rem;
+  }
+}
