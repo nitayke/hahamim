@@ -9,19 +9,6 @@ import {
   signInAnonymously,
 } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
 
-import "./utils/gematria.js";
-
-if (!window.localStorage.getItem("questionsAnswered")) {
-  // first time of user
-  window.localStorage.setItem("questionsAnswered", 0);
-  window.localStorage.setItem("questionsAnsweredCorrectly", 0);
-  window.localStorage.setItem("addedQuestions", 0);
-}
-
-var gematriya_list = [];
-for (var i = 1; i < 177; i++) {
-  gematriya_list.push(gematriya(i));
-}
 var d = {};
 
 const csv_url = "yeshivot.json";
