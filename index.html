@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="he-IL">
   <head>
-    <title>קשיא - טריוויה על הש"ס</title>
+    <title>חכמים - טריוויה על חכמי ישראל</title>
 
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="css/all-site.css" />
-    <link rel="stylesheet" type="text/css" href="css/game.css" />
+    <link rel="stylesheet" href="style.css" />
     <link rel="icon" href="images/logo.png" />
     <link
       rel="stylesheet"
@@ -24,61 +23,29 @@
       href="https://fonts.googleapis.com/css2?family=Heebo&display=swap"
       rel="stylesheet"
     />
-    <!-- Google Tag Manager -->
-    <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
-        j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-KXRDWJ4");
-    </script>
-    <!-- End Google Tag Manager -->
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript
-      ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-KXRDWJ4"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      ></iframe
-    ></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <script src="javascript/utils/navbar.js"></script>
+    
     <div class="game-page-container">
       <div id="start-container">
-        <h2>קשיא - טריוויה על הש"ס</h2>
+        <h2>חכמים - טריוויה על חכמי ישראל</h2>
         <div class="choose-game-container">
           <button class="game-type-btn" onclick="startGame(0)">
-            שאלות על הדף היומי
+            קל
           </button>
-          <button class="game-type-btn" onclick="openPopUp()">
-            שאלות על דפי גמרא לבחירה
+          <button class="game-type-btn" onclick="startGame(1)">
+            בינוני
           </button>
-          <button class="game-type-btn" onclick="openPopUp()">
-            טורניר עם חברים על דפי גמרא לבחירה
+          <button class="game-type-btn" onclick="startGame(2)">
+            קשיא
+          </button>
+          <button class="game-type-btn" onclick="startGame(3)">
+            אקזוטי
           </button>
         </div>
-        <div class="after-regular-game-start" hidden>
-          <p>
-            <b>בחרתם את כל דפי הגמרא שאתם רוצים להישאל עליהם?</b><br />
-            אם לא, <a href="settings.html">לחצו כאן</a> כדי לעבור לדף ההגדרות,
-            ובחרו את דפי הגמרא שאתם שולטים בהם. <br />
-            אם כן, התחילו להרביץ תורה.
-            <span class="bold-and-blue">הלאה בש"ס!</span>
-          </p>
-          <button id="start-game-btn" onclick="startGame(2)">התחל משחק</button>
-        </div>
-        <div class="after-tournament-start" hidden></div>
       </div>
       <div id="game-container" hidden>
-        <h2>קשיא - טריוויה על הש"ס</h2>
+        <h2>חכמים - טריוויה על חכמי ישראל</h2>
         <h4>שאלה על <span class="question-title"></span></h4>
         <div class="question-and-report">
           <p class="question"></p>
@@ -117,8 +84,6 @@
           </div>
 
           <div class="game-footer-bottom">
-            <span class="smaller questions-added"></span>
-            <span class="smaller questions-answered-correctly"></span>
             <span class="smaller questions-answered-correctly-now"></span>
           </div>
         </div>
@@ -160,40 +125,7 @@
       onclick="closePopUp(), closeReportPopUp()"
       hidden
     ></div>
-    <div class="pop-up">
-      <p class="pop-up-text" hidden>
-        האתר כבר מוכן ורק מחכה לשאלות שלך! <br />
-        הנה, אנחנו אפילו לא משקרים. <br />
-        הלאה בש"ס!
-      </p>
-      <img
-        class="pop-up-img"
-        src="images/popup.jpeg"
-        alt="תמונה של עמוד השאלות"
-        hidden
-      />
-    </div>
-    <div class="report-pop-up pop-up">
-      <form class="report-question-form" autocomplete="off" hidden>
-        <h2>דווח על השאלה</h2>
-        <select class="report-options" required>
-          <option value="" selected disabled hidden>מה הבעיה?</option>
-          <option value="0">השאלה לא מתאימה לאתר</option>
-          <option value="1">השאלה מופיעה פעמיים</option>
-          <option value="2">התשובה לא נכונה</option>
-          <option value="3">המסכת של השאלה לא נכונה</option>
-          <option value="4">הדף של השאלה לא נכון</option>
-        </select>
-        <input
-          type="text"
-          class="report-solution"
-          placeholder="אם יש צורך, אנא כתוב את פתרון הבעיה"
-        />
-        <input type="submit" class="report-question-btn" value="דווח" />
-      </form>
-    </div>
 
-    <script type="module" src="javascript/utils/firebase-init.js"></script>
-    <script type="module" src="javascript/index.js"></script>
+    <script type="module" src="index.js"></script>
   </body>
 </html>
