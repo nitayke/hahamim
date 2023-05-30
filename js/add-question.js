@@ -3,11 +3,11 @@ import {
   ref,
   set,
   push,
-} from "https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 import {
   getAuth,
   signInAnonymously,
-} from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
 var d = {};
 

@@ -1,16 +1,15 @@
 import {
   getDatabase,
   ref,
-  equalTo,
   orderByChild,
   query,
   get,
   limitToFirst,
-} from "https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 import {
   getAuth,
   signInAnonymously,
-} from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
 
 const startContainer = document.getElementById("start-container");
@@ -64,17 +63,17 @@ async function startGame(gameType) {
 async function getQuestions() {
   const auth = getAuth();
   await signInAnonymously(auth);
-  const qRef = ref(getDatabase(), "questions");
+  const qRef = ref(getDatabase(), "questions/easy");
   const q = query(
     qRef,
-    orderByChild("page"),
-    equalTo(getDafYomi()), // it's only for dafYomi for now
+    //orderByChild("num"),
     limitToFirst(NUM_OF_QUESTIONS)
   );
   const snapshot = await get(q);
   snapshot.forEach((child) => {
     questions[child.key] = child.val();
   });
+  console.log(questions);
   hideLoader();
 }
 

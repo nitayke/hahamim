@@ -4,7 +4,7 @@ import {
   get,
   query,
   orderByChild,
-} from "https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
 function getRecords() {
   // const scoresRef = ref(getDatabase(), 'scores'); // works

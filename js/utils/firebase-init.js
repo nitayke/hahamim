@@ -1,15 +1,19 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-analytics.js";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBWt2UUWmZK2kpCzyD-3r1rY8n_WKS5G50",
-  authDomain: "alashas.firebaseapp.com",
-  projectId: "alashas",
-  storageBucket: "alashas.appspot.com",
-  messagingSenderId: "1081560476726",
-  appId: "1:1081560476726:web:09f40aa184d657f3a43c97",
-  measurementId: "G-58M996Q282",
+  apiKey: "AIzaSyB6WVb4j7vDiioyYi-JgVaq53wfdpeRVJ0",
+  authDomain: "hahamim-d7a18.firebaseapp.com",
+  projectId: "hahamim-d7a18",
+  storageBucket: "hahamim-d7a18.appspot.com",
+  messagingSenderId: "205614945391",
+  appId: "1:205614945391:web:2c8f2f1d75ff625db6e99a",
+  measurementId: "G-LZHC0H8EEQ",
+  databaseURL: "https://hahamim-d7a18-default-rtdb.europe-west1.firebasedatabase.app"
 };
-
-const app = initializeApp(firebaseConfig);
-getAnalytics(app);
+getAnalytics(initializeApp(firebaseConfig));
