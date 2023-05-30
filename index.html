@@ -10,48 +10,45 @@
     <link rel="stylesheet" href="css/all-site.css" />
     <link rel="stylesheet" type="text/css" href="css/game.css" />
     <link rel="icon" href="images/favicon.png" />
+    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Heebo&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
-    <script src="javascript/utils/navbar.js"></script>
+    <script src="js/utils/navbar.js"></script>
     <div class="game-page-container">
       <div id="start-container">
         <h2>שעשועון על חכמי ישראל</h2>
         <div class="choose-game-container">
           <button class="game-type-btn" onclick="startGame(0)">
-            שאלות על הדף היומי
+            קל
           </button>
-          <button class="game-type-btn" onclick="openPopUp()">
-            שאלות על דפי גמרא לבחירה
+          <button class="game-type-btn" onclick="startGame(1)">
+            בינוני
           </button>
-          <button class="game-type-btn" onclick="openPopUp()">
-            טורניר עם חברים על דפי גמרא לבחירה
+          <button class="game-type-btn" onclick="startGame(2)">
+            קשיא
+          </button>
+          <button class="game-type-btn" onclick="startGame(3)">
+            אקזוטי
           </button>
         </div>
-        <div class="after-regular-game-start" hidden>
-          <p>
-            <b>בחרתם את כל דפי הגמרא שאתם רוצים להישאל עליהם?</b><br />
-            אם לא, <a href="settings.html">לחצו כאן</a> כדי לעבור לדף ההגדרות,
-            ובחרו את דפי הגמרא שאתם שולטים בהם. <br />
-            אם כן, התחילו להרביץ תורה.
-            <span class="bold-and-blue">הלאה בש"ס!</span>
-          </p>
-          <button id="start-game-btn" onclick="startGame(2)">התחל משחק</button>
-        </div>
-        <div class="after-tournament-start" hidden></div>
       </div>
       <div id="game-container" hidden>
         <h2>שעשועון על חכמי ישראל</h2>
-        <h4>שאלה על <span class="question-title"></span></h4>
-        <div class="question-and-report">
-          <p class="question"></p>
-          <a href="#" class="report-btn" onclick="openReportPopUp()"
-            >דווח על השאלה</a
-          >
-        </div>
+        <p class="question"></p>
         <div class="answer-btn-group">
           <button
             class="answer-btn"
@@ -78,44 +75,29 @@
           <div class="game-footer-top">
             <span class="after-answer-text"></span>
             <button class="next-question-btn" onclick="nextQuestion()">
-              הב לי קשיא אחרינא
+              לשאלה הבאה
             </button>
           </div>
 
           <div class="game-footer-bottom">
-            <span class="smaller questions-added"></span>
-            <span class="smaller questions-answered-correctly"></span>
             <span class="smaller questions-answered-correctly-now"></span>
           </div>
         </div>
       </div>
       <div class="end-game-container" hidden>
         <p>
-          נגמרו השאלות על
-          <span class="end-game-type"></span>
           ענית נכונה על
           <span class="question-aswered-correctly-now"></span>
           <br />
           שכוייח!
         </p>
         <div class="end-game-btns-container">
-          <div class="game-btns">
-            <button class="next-game-btn" onclick="startGame(1)">
-              לשאלות על הדף היומי
-            </button>
-            <button class="next-game-btn" onclick="openPopUp()">
-              לשאלות על דפי גמרא לבחירה
-            </button>
-            <button class="next-game-btn" onclick="openPopUp()">
-              לטורניר עם חברים על דפי גמרא לבחירה
-            </button>
-          </div>
           <button class="add-question-after-game-btn">
             <a href="./add-question.html">להוספת שאלה למאגר השאלות שלנו</a>
           </button>
         </div>
       </div>
-      <footer>© על הש"ס - נתאי קסנר ואייל הלמון</footer>
+      <footer>© עמותת שבושון</footer>
     </div>
 
     <div class="loader-container">
@@ -123,43 +105,11 @@
     </div>
     <div
       class="dark-screen"
-      onclick="closePopUp(), closeReportPopUp()"
+      onclick="closePopUp()"
       hidden
     ></div>
-    <div class="pop-up">
-      <p class="pop-up-text" hidden>
-        האתר כבר מוכן ורק מחכה לשאלות שלך! <br />
-        הנה, אנחנו אפילו לא משקרים. <br />
-        הלאה בש"ס!
-      </p>
-      <img
-        class="pop-up-img"
-        src="images/popup.jpeg"
-        alt="תמונה של עמוד השאלות"
-        hidden
-      />
-    </div>
-    <div class="report-pop-up pop-up">
-      <form class="report-question-form" autocomplete="off" hidden>
-        <h2>דווח על השאלה</h2>
-        <select class="report-options" required>
-          <option value="" selected disabled hidden>מה הבעיה?</option>
-          <option value="0">השאלה לא מתאימה לאתר</option>
-          <option value="1">השאלה מופיעה פעמיים</option>
-          <option value="2">התשובה לא נכונה</option>
-          <option value="3">המסכת של השאלה לא נכונה</option>
-          <option value="4">הדף של השאלה לא נכון</option>
-        </select>
-        <input
-          type="text"
-          class="report-solution"
-          placeholder="אם יש צורך, אנא כתוב את פתרון הבעיה"
-        />
-        <input type="submit" class="report-question-btn" value="דווח" />
-      </form>
-    </div>
 
-    <script type="module" src="javascript/utils/firebase-init.js"></script>
-    <script type="module" src="javascript/index.js"></script>
+    <script type="module" src="js/utils/firebase-init.js"></script>
+    <script type="module" src="js/index.js"></script>
   </body>
 </html>

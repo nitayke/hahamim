@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he-IL">
+  <head>
+    <title> {{site.title}} </title>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="css/all-site.css" />
+    <link rel="stylesheet" href="css/question-added.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo&display=swap"
+      rel="stylesheet"
+    />
+    <script src="js/utils/navbar.js"></script>
+  </head>
+
+  <body>
+    <nav class="nav">
+        <div class="logo-container">
+                <img src="images/white.png" style="background-color:transparent;" class="nav-logo-image" alt="">
+        </div>
+        <header>
+        <h1>קשיא</h1>
+        <h2 class="nav-head">טריוויה על הש"ס</h2>
+        </header>
+        <div class="nav-container">
+        <div class="nav-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        
+            <ul class="nav-menu">
+                <li class="nav-items">
+                <a href="index.html" class="nav-links active-page">
+                <i class='fas fa-book-open nav-icons'></i>שחק</a>
+                </li>
+                <li class="nav-items">
+                    <a href="add-question.html" class="nav-links">
+                    <i class='fa fa-plus nav-icons'></i>הוסף שאלה</a>
+                </li>
+                <li class="nav-items">
+                    <a href="records.html" class="nav-links">
+                    <i class="fa fa-line-chart nav-icons"></i>שיאים</a>
+                </li>
+                <li class="nav-items">
+                    <a href="about.html" class="nav-links">
+                    <i class='fa fa-beer nav-icons'></i>אודות</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    {{ content }}
+    
+
+    <div class="loader-container">
+      <div class="loader" hidden></div>
+    </div>
+  </body>
+</html>

@@ -1,235 +1,160 @@
-<!DOCTYPE html>
-<html dir="rtl" lang="he-IL">
-  <head>
-    <title>קשיא - טריוויה על הש"ס</title>
+---
+layout: default
+---
 
-    <link rel="stylesheet" href="css/all-site.css" />
-    <link rel="stylesheet" href="css/add-question.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Heebo&display=swap"
-      rel="stylesheet"
-    />
+<script type="module" src="js/utils/firebase-init.js"></script>
+<script defer type="module" src="js/add-question.js"></script>
 
-    <link rel="icon" href="images/logo.png" />
-
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-      crossorigin="anonymous"
-    />
-    <!-- Google Tag Manager -->
-    <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
-        j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-KXRDWJ4");
-    </script>
-    <!-- End Google Tag Manager -->
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <script type="module" src="javascript/utils/firebase-init.js"></script>
-    <script defer type="module" src="javascript/add-question.js"></script>
-  </head>
-
-  <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript
-      ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-KXRDWJ4"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      ></iframe
-    ></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <script src="javascript/utils/navbar.js"></script>
-
-    <div class="all-site" onclick="hideMobileMenu()">
-      <form class="add-question-form" id="add-question-form" autocomplete="off">
-        <h2>הוסף שאלה</h2>
-        <div class="main-form-container">
-          <div class="box1">
-            תעשה את זה אתה אני מה זה גרוע בזה
-            <label>השאלה שלי על הדף היומי:</label>
-            <input type="checkbox" />
-            <label>על איזה מסכת השאלה שלך?</label>
-            <select
-              class="add-question-box"
-              id="masechet"
-              onchange="updatePages(), removeError(0)"
-            >
-              <option value="" disabled selected hidden>בחר מסכת</option>
-              <optgroup label="סדר זרעים">
-                <option value="0">ברכות</option>
-              </optgroup>
-              <optgroup label="סדר מועד">
-                <option value="63">שבת</option>
-                <option value="219">עירובין</option>
-                <option value="323">פסחים</option>
-                <option value="443">שקלים</option>
-                <option value="464">ראש השנה</option>
-                <option value="498">יומא</option>
-                <option value="585">סוכה</option>
-                <option value="640">ביצה</option>
-                <option value="679">תענית</option>
-                <option value="709">מגילה</option>
-                <option value="740">מועד קטן</option>
-                <option value="768">חגיגה</option>
-              </optgroup>
-              <optgroup label="סדר נשים">
-                <option value="794">יבמות</option>
-                <option value="915">כתובות</option>
-                <option value="1026">נדרים</option>
-                <option value="1116">נזיר</option>
-                <option value="1181">סוטה</option>
-                <option value="1229">גיטין</option>
-                <option value="1318">קידושין</option>
-              </optgroup>
-              <optgroup label="סדר נזיקין">
-                <option value="1399">בבא קמא</option>
-                <option value="1517">בבא מציעא</option>
-                <option value="1635">בבא בתרא</option>
-                <option value="1810">סנהדרין</option>
-                <option value="1922">מכות</option>
-                <option value="1945">שבועות</option>
-                <option value="1993">עבודה זרה</option>
-                <option value="2068">הוריות</option>
-              </optgroup>
-              <optgroup label="סדר קדשים">
-                <option value="2081">זבחים</option>
-                <option value="2200">מנחות</option>
-                <option value="2309">חולין</option>
-                <option value="2450">בכורות</option>
-                <option value="2510">ערכין</option>
-                <option value="2543">תמורה</option>
-                <option value="2576">כריתות</option>
-                <option value="2603">מעילה</option>
-                <!-- These masechtot start from the middle of me'ila -->
-                <option value="2603">קנים</option>
-                <option value="2603">תמיד</option>
-                <option value="2603">מדות</option>
-              </optgroup>
-              <optgroup label="סדר טהרות">
-                <option value="2639">נידה</option>
-              </optgroup>
-            </select>
-            <div class="error-place"></div>
-            <label>על איזה דף השאלה שלך?</label>
-            <select
-              class="add-question-box"
-              id="page"
-              onchange="removeError(1)"
-            >
-              <!--Added with JS-->
-              <option value="" selected disabled hidden>בחר דף</option>
-              <option disabled>נא לבחור מסכת קודם!</option>
-            </select>
-            <div class="error-place"></div>
-            <label>מה סוג השאלה שלך?</label>
-            <select
-              class="add-question-box"
-              id="type"
-              onchange="removeError(2)"
-            >
-              <option value="" selected disabled hidden>בחר סוג שאלה</option>
-              <option value="0">שאלה על פשט הגמרא</option>
-              <option value="1">שאלה על פשט הגמרא עם פירוש רש"י</option>
-              <option value="2">שאלה על פשט הגמרא עם פירוש התוספות</option>
-            </select>
-            <div class="error-place"></div>
-            <label>מחבר השאלה (לא חובה)</label>
-            <input id="author" class="add-question-box" />
-          </div>
-          <div class="middle-border"></div>
-          <div class="box2">
-            <label>השאלה</label>
-            <input
-              id="q"
-              name="q"
-              class="add-question-box"
-              onfocus="removeError(3)"
-              onchange="removeError(3)"
-            />
-            <div class="error-place"></div>
-            <label>תשובה נכונה</label>
-            <input
-              id="a1"
-              name="a1"
-              class="add-question-box"
-              onfocus="removeError(4)"
-              onchange="removeError(3)"
-            />
-            <div class="error-place"></div>
-            <label>תשובה שגויה</label>
-            <input
-              id="a2"
-              name="a2"
-              class="add-question-box"
-              onfocus="removeError(5)"
-              onchange="removeError(3)"
-            />
-            <div class="error-place"></div>
-            <labal>תשובה שגויה</labal>
-            <input
-              id="a3"
-              name="a3"
-              class="add-question-box"
-              onfocus="removeError(6)"
-              onchange="removeError(3)"
-            />
-            <div class="error-place"></div>
-            <label>תשובה שגויה</label>
-            <input
-              id="a4"
-              name="a4"
-              class="add-question-box"
-              onfocus="removeError(7)"
-              onchange="removeError(3)"
-            />
-            <div class="error-place"></div>
-          </div>
-        </div>
-
+<div class="all-site" onclick="hideMobileMenu()">
+  <form class="add-question-form" id="add-question-form" autocomplete="off">
+    <h2>הוסף שאלה</h2>
+    <div class="main-form-container">
+      <div class="box1">
+        <label>השאלה שלי על הדף היומי:</label>
+        <input type="checkbox" />
+        <label>על איזה מסכת השאלה שלך?</label>
+        <select
+          class="add-question-box"
+          id="masechet"
+          onchange="updatePages(), removeError(0)"
+        >
+          <option value="" disabled selected hidden>בחר מסכת</option>
+          <optgroup label="סדר זרעים">
+            <option value="0">ברכות</option>
+          </optgroup>
+          <optgroup label="סדר מועד">
+            <option value="63">שבת</option>
+            <option value="219">עירובין</option>
+            <option value="323">פסחים</option>
+            <option value="443">שקלים</option>
+            <option value="464">ראש השנה</option>
+            <option value="498">יומא</option>
+            <option value="585">סוכה</option>
+            <option value="640">ביצה</option>
+            <option value="679">תענית</option>
+            <option value="709">מגילה</option>
+            <option value="740">מועד קטן</option>
+            <option value="768">חגיגה</option>
+          </optgroup>
+          <optgroup label="סדר נשים">
+            <option value="794">יבמות</option>
+            <option value="915">כתובות</option>
+            <option value="1026">נדרים</option>
+            <option value="1116">נזיר</option>
+            <option value="1181">סוטה</option>
+            <option value="1229">גיטין</option>
+            <option value="1318">קידושין</option>
+          </optgroup>
+          <optgroup label="סדר נזיקין">
+            <option value="1399">בבא קמא</option>
+            <option value="1517">בבא מציעא</option>
+            <option value="1635">בבא בתרא</option>
+            <option value="1810">סנהדרין</option>
+            <option value="1922">מכות</option>
+            <option value="1945">שבועות</option>
+            <option value="1993">עבודה זרה</option>
+            <option value="2068">הוריות</option>
+          </optgroup>
+          <optgroup label="סדר קדשים">
+            <option value="2081">זבחים</option>
+            <option value="2200">מנחות</option>
+            <option value="2309">חולין</option>
+            <option value="2450">בכורות</option>
+            <option value="2510">ערכין</option>
+            <option value="2543">תמורה</option>
+            <option value="2576">כריתות</option>
+            <option value="2603">מעילה</option>
+            <!-- These masechtot start from the middle of me'ila -->
+            <option value="2603">קנים</option>
+            <option value="2603">תמיד</option>
+            <option value="2603">מדות</option>
+          </optgroup>
+          <optgroup label="סדר טהרות">
+            <option value="2639">נידה</option>
+          </optgroup>
+        </select>
+        <div class="error-place"></div>
+        <label>על איזה דף השאלה שלך?</label>
+        <select
+          class="add-question-box"
+          id="page"
+          onchange="removeError(1)"
+        >
+          <!--Added with JS-->
+          <option value="" selected disabled hidden>בחר דף</option>
+          <option disabled>נא לבחור מסכת קודם!</option>
+        </select>
+        <div class="error-place"></div>
+        <label>מה סוג השאלה שלך?</label>
+        <select
+          class="add-question-box"
+          id="type"
+          onchange="removeError(2)"
+        >
+          <option value="" selected disabled hidden>בחר סוג שאלה</option>
+          <option value="0">שאלה על פשט הגמרא</option>
+          <option value="1">שאלה על פשט הגמרא עם פירוש רש"י</option>
+          <option value="2">שאלה על פשט הגמרא עם פירוש התוספות</option>
+        </select>
+        <div class="error-place"></div>
+        <label>מחבר השאלה (לא חובה)</label>
+        <input id="author" class="add-question-box" />
+      </div>
+      <div class="middle-border"></div>
+      <div class="box2">
+        <label>השאלה</label>
         <input
-          type="submit"
-          class="add-question-btn"
-          id="add-question-btn"
-          value="הוסף שאלה"
+          id="q"
+          name="q"
+          class="add-question-box"
+          onfocus="removeError(3)"
+          onchange="removeError(3)"
         />
-      </form>
+        <div class="error-place"></div>
+        <label>תשובה נכונה</label>
+        <input
+          id="a1"
+          name="a1"
+          class="add-question-box"
+          onfocus="removeError(4)"
+          onchange="removeError(3)"
+        />
+        <div class="error-place"></div>
+        <label>תשובה שגויה</label>
+        <input
+          id="a2"
+          name="a2"
+          class="add-question-box"
+          onfocus="removeError(5)"
+          onchange="removeError(3)"
+        />
+        <div class="error-place"></div>
+        <labal>תשובה שגויה</labal>
+        <input
+          id="a3"
+          name="a3"
+          class="add-question-box"
+          onfocus="removeError(6)"
+          onchange="removeError(3)"
+        />
+        <div class="error-place"></div>
+        <label>תשובה שגויה</label>
+        <input
+          id="a4"
+          name="a4"
+          class="add-question-box"
+          onfocus="removeError(7)"
+          onchange="removeError(3)"
+        />
+        <div class="error-place"></div>
+      </div>
     </div>
 
-    <footer>© על הש"ס - נתאי קסנר ואייל הלמון</footer>
-
-    <div class="loader-container">
-      <div class="loader" hidden></div>
-    </div>
-    <div class="dark-screen" onclick="closePopUp()" hidden></div>
-    <div class="pop-up">
-      <p class="pop-up-text" hidden>
-        האתר כבר מוכן ורק מחכה לשאלות שלך! <br />
-        הנה, אנחנו אפילו לא משקרים. <br />
-        הלאה בש"ס!
-      </p>
-      <img
-        class="pop-up-img"
-        src="images/popup.jpeg"
-        alt="תמונה של עמוד השאלות"
-        hidden
-      />
-    </div>
-  </body>
-</html>
+    <input
+      type="submit"
+      class="add-question-btn"
+      id="add-question-btn"
+      value="הוסף שאלה"
+    />
+  </form>
+</div>
