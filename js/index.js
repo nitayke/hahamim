@@ -33,35 +33,30 @@ let answers = document.querySelectorAll(".answer-btn");
 let rightAnswer;
 let chosenAnswer;
 let questionIndex = 0;
-let addedQuestions = window.localStorage.getItem("addedQuestions");
-let questionsAnswered = window.localStorage.getItem("questionsAnswered");
-let questionsAnsweredCorrectly = window.localStorage.getItem(
-  "questionsAnsweredCorrectly"
-);
 let questionsAnsweredNow = 0;
 let questionsAnsweredCorrectlyNow = 0;
 let gt;
 const NUM_OF_QUESTIONS = 10;
-// it's gonna be like that: {db_key: {question_object}, db_key: {question_object}, ...}
-let questions = [];
+const types = ['easy', 'medium', 'hard', 'exotic']
 
+let questions = [];
 
 async function startGame(gameType) {
   startContainer.classList.add("scale-down");
   startContainer.hidden = true;
   showLoader();
 
-  await getQuestions();
+  await getQuestions(gameType);
 
   newQuestion(gameType);
 
   gameContainer.hidden = false;
 }
 
-async function getQuestions() {
+async function getQuestions(gameType) {
   const auth = getAuth();
   await signInAnonymously(auth);
-  const qRef = ref(getDatabase(), "questions/easy");
+  const qRef = ref(getDatabase(), types[gameType]);
   const q = query(
     qRef,
     orderByChild("random_num"),
@@ -72,6 +67,7 @@ async function getQuestions() {
     update(child.ref, {"random_num": Math.floor(Math.random() * 100)}); // מבריק
     questions[child.key] = child.val();
   });
+  console.log(questions)
   hideLoader();
 }
 
@@ -130,14 +126,6 @@ function endGame(gameType) {
   showLoader();
 
   nextGameBtns[gameType].hidden = true;
-  let type = "";
-  if (gameType == DAFYOMI_GAME) {
-    type = "הדף היומי";
-  } else if (gameType == REGULAR_GAME) {
-    type = "דפי הגמרא שבחרת";
-  } else {
-    type = "דפי הגמרא שבחרתם";
-  }
 
   document.querySelector(".end-game-type").innerHTML = type;
   document.querySelector(".question-aswered-correctly-now").innerHTML =

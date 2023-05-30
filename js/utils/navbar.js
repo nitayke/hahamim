@@ -37,11 +37,12 @@ function closePopUp() {
 const navLinks = document.querySelectorAll(".nav-links");
 
 window.onload = function checkActivepage() {
-  if (window.location.href.includes("settings")) {
+  if (window.location.href.includes("about")) {
     changeActivePage(3);
   } else if (window.location.href.includes("add-question")) {
     changeActivePage(1);
   } else if (window.location.href.includes("records")) {
+    console.log(1)
     changeActivePage(2);
   } else {
     changeActivePage(0);
