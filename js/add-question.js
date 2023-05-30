@@ -163,6 +163,7 @@ function addQuestion() {
   const type = parseInt(e.value);
 
   const auth = getAuth();
+  // TODO: change it to await and async function
   signInAnonymously(auth)
     .then(() => {
       set(newQuestionRef, {

@@ -6,7 +6,6 @@ layout: default
 <script type="module" src="js/index.js"></script>
 <div class="game-page-container">
   <div id="start-container">
-    <h2>שעשועון על חכמי ישראל</h2>
     <div class="choose-game-container">
       <button class="game-type-btn" onclick="startGame(0)">
         קל
@@ -23,29 +22,24 @@ layout: default
     </div>
   </div>
   <div id="game-container" hidden>
-    <h2>שעשועון על חכמי ישראל</h2>
     <p class="question"></p>
     <div class="answer-btn-group">
       <button
         class="answer-btn"
-        id="btn-1"
         onclick="checkAnswer(0)"
-      ></button>
+      >תנא</button>
       <button
         class="answer-btn"
-        id="btn-2"
         onclick="checkAnswer(1)"
-      ></button>
+      >אמורא</button>
       <button
         class="answer-btn"
-        id="btn-3"
         onclick="checkAnswer(2)"
-      ></button>
+      >ראשון</button>
       <button
         class="answer-btn"
-        id="btn-4"
         onclick="checkAnswer(3)"
-      ></button>
+      >אחרון</button>
     </div>
     <div class="game-footer" hidden>
       <div class="game-footer-top">

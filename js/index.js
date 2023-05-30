@@ -1,6 +1,7 @@
 import {
   getDatabase,
   ref,
+  update,
   orderByChild,
   query,
   get,
@@ -51,9 +52,6 @@ async function startGame(gameType) {
   showLoader();
 
   await getQuestions();
-  if (gameType === DAFYOMI_GAME) {
-    questionTitle.innerHTML = "הדף היומי";
-  }
 
   newQuestion(gameType);
 
@@ -66,57 +64,29 @@ async function getQuestions() {
   const qRef = ref(getDatabase(), "questions/easy");
   const q = query(
     qRef,
-    //orderByChild("num"),
+    orderByChild("random_num"),
     limitToFirst(NUM_OF_QUESTIONS)
   );
   const snapshot = await get(q);
   snapshot.forEach((child) => {
+    update(child.ref, {"random_num": Math.floor(Math.random() * 100)}); // מבריק
     questions[child.key] = child.val();
   });
-  console.log(questions);
   hideLoader();
 }
 
 function handleOneQuestion() {
-  question.innerHTML = Object.values(questions)[questionIndex].q;
-  var list_of_4 = [0, 1, 2, 3];
-
-  var random = Math.floor(Math.random() * 4); // returns 0-3 random
-  rightAnswer = random;
-  answers[list_of_4[random]].innerHTML =
-    Object.values(questions)[questionIndex].answers[0];
-
-  for (var i = 0; i < 3; i++) {
-    list_of_4.splice(random, 1);
-    random = Math.floor(Math.random() * (3 - i));
-    answers[list_of_4[random]].innerHTML =
-      Object.values(questions)[questionIndex].answers[i + 1];
-  }
+  question.innerHTML = Object.values(questions)[questionIndex].name;
+  rightAnswer = Object.values(questions)[questionIndex].type;
 }
 
 async function newQuestion(gameType) {
   gt = gameType;
-  if (gameType == DAFYOMI_GAME) {
-    if (questionIndex < Object.keys(questions).length) {
-      handleOneQuestion();
-      questionIndex++;
-    } else {
-      endGame(DAFYOMI_GAME);
-    }
-  } else if (gameType == REGULAR_GAME) {
-    //משחק של דפי גמרא לבחירה
-    if (questionIndex < NUM_OF_QUESTIONS) {
-      questionTitle.innerHTML = "פשט הגמרא במסכת בבא קמא דף ב.";
-      question.innerHTML = "מה זה מבעה לדעת רב?";
-      answers[0].innerHTML = "שן";
-      answers[1].innerHTML = "רגל";
-      answers[2].innerHTML = "מים";
-      answers[3].innerHTML = "אדם";
-    } else {
-      endGame(2);
-    }
+  if (questionIndex < NUM_OF_QUESTIONS) {
+    handleOneQuestion();
+    questionIndex++;
   } else {
-    //משחק של טורניר עם חברים
+    endGame();
   }
 }
 
@@ -125,22 +95,16 @@ function checkAnswer(ansNum) {
   answers.forEach((ans) => ans.classList.add("disable-pointer-events"));
   if (chosenAnswer == rightAnswer) {
     answers[chosenAnswer].classList.add("make-it-green");
-    document.querySelector(".after-answer-text").innerHTML = "תיובתא מעליא!";
+    document.querySelector(".after-answer-text").innerHTML = "יפה מאוד";
     questionsAnsweredCorrectlyNow++;
-    questionsAnsweredCorrectly++; // needed to be saved in the end of the game
   } else {
     answers[chosenAnswer].classList.add("make-it-red");
     answers[rightAnswer].classList.add("make-it-green");
-    document.querySelector(".after-answer-text").innerHTML = "זיל תיגמור..";
+    document.querySelector(".after-answer-text").innerHTML = "גרוע";
   }
-  questionsAnswered++; // כנל
   questionsAnsweredNow++;
-  document.querySelector(".questions-added").innerHTML =
-    "שאיתלא דהוספת: " + addedQuestions;
-  document.querySelector(".questions-answered-correctly").innerHTML =
-    "שאילתא דענית טפי: " + questionsAnsweredCorrectly + "/" + questionsAnswered;
   document.querySelector(".questions-answered-correctly-now").innerHTML =
-    "שאילתא דענית השתא טפי: " +
+    "שאלות שענית נכונה עד כה: " +
     questionsAnsweredCorrectlyNow +
     "/" +
     questionsAnsweredNow;
@@ -183,31 +147,6 @@ function endGame(gameType) {
   hideLoader();
 }
 
-async function reportQuestion() {
-  const reportType = document.querySelector(".report-options").value;
-  const questionRef = ref(
-    getDatabase(),
-    "questions/" + Object.keys(questions)[questionIndex - 1]
-  );
-  const q = query(questionRef);
-  const snapshot = await get(q);
-  snapshot.forEach((child) => {
-    console.log(child.val());
-  });
-  // nextQuestion();
-  // closeReportPopUp();
-}
-
-function openReportPopUp() {
-  document.querySelector(".dark-screen").hidden = false;
-  document.querySelector(".report-question-form").hidden = false;
-}
-
-function closeReportPopUp() {
-  document.querySelector(".dark-screen").hidden = true;
-  document.querySelector(".report-question-form").hidden = true;
-}
-
 function showLoader() {
   loader.hidden = false;
   darkScreen.hidden = false;
@@ -218,16 +157,7 @@ function hideLoader() {
   darkScreen.hidden = true;
 }
 
-if (!window.localStorage.getItem("questionsAnswered")) {
-  // first time of user
-  window.localStorage.setItem("questionsAnswered", 0);
-  window.localStorage.setItem("questionsAnsweredCorrectly", 0);
-  window.localStorage.setItem("addedQuestions", 0);
-}
-
 // ugly way to solve the module problem
 window.startGame = startGame;
 window.checkAnswer = checkAnswer;
-window.openReportPopUp = openReportPopUp;
-window.closeReportPopUp = closeReportPopUp;
 window.nextQuestion = nextQuestion;
