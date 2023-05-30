@@ -1,2 +1,4 @@
 *.docx
 *.tmp
+_site
+.jekyll-cache

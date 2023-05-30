@@ -1,115 +1,87 @@
-<!DOCTYPE html>
-<html dir="rtl" lang="he-IL">
-  <head>
-    <title>שעשועון על חכמי ישראל</title>
+---
+layout: default
+---
 
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <link rel="stylesheet" href="css/all-site.css" />
-    <link rel="stylesheet" type="text/css" href="css/game.css" />
-    <link rel="icon" href="images/favicon.png" />
-    
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Heebo&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <script src="js/utils/navbar.js"></script>
-    <div class="game-page-container">
-      <div id="start-container">
-        <h2>שעשועון על חכמי ישראל</h2>
-        <div class="choose-game-container">
-          <button class="game-type-btn" onclick="startGame(0)">
-            קל
-          </button>
-          <button class="game-type-btn" onclick="startGame(1)">
-            בינוני
-          </button>
-          <button class="game-type-btn" onclick="startGame(2)">
-            קשיא
-          </button>
-          <button class="game-type-btn" onclick="startGame(3)">
-            אקזוטי
-          </button>
-        </div>
-      </div>
-      <div id="game-container" hidden>
-        <h2>שעשועון על חכמי ישראל</h2>
-        <p class="question"></p>
-        <div class="answer-btn-group">
-          <button
-            class="answer-btn"
-            id="btn-1"
-            onclick="checkAnswer(0)"
-          ></button>
-          <button
-            class="answer-btn"
-            id="btn-2"
-            onclick="checkAnswer(1)"
-          ></button>
-          <button
-            class="answer-btn"
-            id="btn-3"
-            onclick="checkAnswer(2)"
-          ></button>
-          <button
-            class="answer-btn"
-            id="btn-4"
-            onclick="checkAnswer(3)"
-          ></button>
-        </div>
-        <div class="game-footer" hidden>
-          <div class="game-footer-top">
-            <span class="after-answer-text"></span>
-            <button class="next-question-btn" onclick="nextQuestion()">
-              לשאלה הבאה
-            </button>
-          </div>
-
-          <div class="game-footer-bottom">
-            <span class="smaller questions-answered-correctly-now"></span>
-          </div>
-        </div>
-      </div>
-      <div class="end-game-container" hidden>
-        <p>
-          ענית נכונה על
-          <span class="question-aswered-correctly-now"></span>
-          <br />
-          שכוייח!
-        </p>
-        <div class="end-game-btns-container">
-          <button class="add-question-after-game-btn">
-            <a href="./add-question.html">להוספת שאלה למאגר השאלות שלנו</a>
-          </button>
-        </div>
-      </div>
-      <footer>© עמותת שבושון</footer>
+<div class="game-page-container">
+  <div id="start-container">
+    <h2>שעשועון על חכמי ישראל</h2>
+    <div class="choose-game-container">
+      <button class="game-type-btn" onclick="startGame(0)">
+        קל
+      </button>
+      <button class="game-type-btn" onclick="startGame(1)">
+        בינוני
+      </button>
+      <button class="game-type-btn" onclick="startGame(2)">
+        קשיא
+      </button>
+      <button class="game-type-btn" onclick="startGame(3)">
+        אקזוטי
+      </button>
     </div>
-
-    <div class="loader-container">
-      <div class="loader" hidden></div>
+  </div>
+  <div id="game-container" hidden>
+    <h2>שעשועון על חכמי ישראל</h2>
+    <p class="question"></p>
+    <div class="answer-btn-group">
+      <button
+        class="answer-btn"
+        id="btn-1"
+        onclick="checkAnswer(0)"
+      ></button>
+      <button
+        class="answer-btn"
+        id="btn-2"
+        onclick="checkAnswer(1)"
+      ></button>
+      <button
+        class="answer-btn"
+        id="btn-3"
+        onclick="checkAnswer(2)"
+      ></button>
+      <button
+        class="answer-btn"
+        id="btn-4"
+        onclick="checkAnswer(3)"
+      ></button>
     </div>
-    <div
-      class="dark-screen"
-      onclick="closePopUp()"
-      hidden
-    ></div>
+    <div class="game-footer" hidden>
+      <div class="game-footer-top">
+        <span class="after-answer-text"></span>
+        <button class="next-question-btn" onclick="nextQuestion()">
+          לשאלה הבאה
+        </button>
+      </div>
 
-    <script type="module" src="js/utils/firebase-init.js"></script>
-    <script type="module" src="js/index.js"></script>
-  </body>
-</html>
+      <div class="game-footer-bottom">
+        <span class="smaller questions-answered-correctly-now"></span>
+      </div>
+    </div>
+  </div>
+  <div class="end-game-container" hidden>
+    <p>
+      ענית נכונה על
+      <span class="question-aswered-correctly-now"></span>
+      <br />
+      שכוייח!
+    </p>
+    <div class="end-game-btns-container">
+      <button class="add-question-after-game-btn">
+        <a href="./add-question.html">להוספת שאלה למאגר השאלות שלנו</a>
+      </button>
+    </div>
+  </div>
+  <footer>© עמותת שבושון</footer>
+</div>
+
+<div class="loader-container">
+  <div class="loader" hidden></div>
+</div>
+<div
+  class="dark-screen"
+  onclick="closePopUp()"
+  hidden
+></div>
+
+<script type="module" src="js/utils/firebase-init.js"></script>
+<script type="module" src="js/index.js"></script>

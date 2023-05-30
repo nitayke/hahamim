@@ -12,28 +12,20 @@ import {
   signInAnonymously,
 } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
 
-import "./utils/gematria.js";
 
 const startContainer = document.getElementById("start-container");
 const loader = document.querySelector(".loader");
 const darkScreen = document.querySelector(".dark-screen");
 const gameContainer = document.getElementById("game-container");
-const afterRegulerGameStart = document.querySelector(
-  ".after-regular-game-start"
-);
 const gameFooter = document.querySelector(".game-footer");
 const endContainer = document.querySelector(".end-game-container");
 const nextGameBtns = document.querySelectorAll(".next-game-btn");
-const report = document.querySelector(".report-question-form");
-report.addEventListener("submit", reportQuestion);
 
-const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-const PAGES_IN_SHAS = 2711;
-const START_ROUND = "01/05/2020"; // היום שהתחילו בו את הסבב בפעם האחרונה
 
-const DAFYOMI_GAME = 0;
-const REGULAR_GAME = 1;
-const WITH_FRIENDS_GAME = 2; // אם בכלל נעשה את זה מתישהו
+const EASY = 0;
+const MEDIUM = 1;
+const HARD = 2;
+const EXOTIC = 3;
 
 let questionTitle = document.querySelector(".question-title");
 let question = document.querySelector(".question");
@@ -53,45 +45,6 @@ const NUM_OF_QUESTIONS = 10;
 // it's gonna be like that: {db_key: {question_object}, db_key: {question_object}, ...}
 let questions = [];
 
-function dateDiffInDays(a, b) {
-  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-  return Math.floor((utc2 - utc1) / _MS_PER_DAY);
-}
-
-function getDafYomi() {
-  const a = new Date(START_ROUND),
-    b = new Date();
-  return dateDiffInDays(a, b) % PAGES_IN_SHAS;
-}
-
-async function dafNumToText(num) {
-  const response = await fetch("add-question.html");
-  const text = await response.text();
-  var doc = new DOMParser().parseFromString(text, "text/html");
-  var options = doc.getElementById("masechet").options;
-  var d_options = {};
-  for (var i = 0; i < options.length; i++) {
-    d_options[options[i].value] = options[i].text;
-  }
-  var keys = Object.keys(d_options);
-  var i1 = 0;
-  for (; i1 < keys.length - 2; i1++) {
-    if (num < keys[i1 + 1]) break;
-  }
-  var masechet = d_options[keys[i1]]; // צריך לטפל במסכתות המעצבנות של קינים וכולי
-  var page = num - keys[i1];
-  return masechet + " דף " + gematriya(page + 2);
-}
-
-// function openAfterRegulerGameStart() {
-//   startContainer.classList.add("scale-down");
-//   startContainer.hidden = true;
-//   showLoader();
-
-//   afterRegulerGameStart.hidden = false;
-//   hideLoader();
-// }
 
 async function startGame(gameType) {
   startContainer.classList.add("scale-down");
