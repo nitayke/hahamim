@@ -21,6 +21,7 @@ let questionsAnsweredNow = 0;
 let questionsAnsweredCorrectlyNow = 0;
 let gt;
 const NUM_OF_QUESTIONS = 20;
+// {easy: {tanaim: [1, 2, 3, 4], emoraim: [1, 2, 3, 4]}, medium: {...}, hard: {...}}
 // it's gonna be like that: {db_key: {question_object}, db_key: {question_object}, ...}
 let questions = [];
 
@@ -37,19 +38,7 @@ async function startGame(gameType) {
 }
 
 async function getQuestions() {
-  const auth = getAuth();
-  await signInAnonymously(auth);
-  const qRef = ref(getDatabase(), "questions");
-  const q = query(
-    qRef,
-    orderByChild("page"),
-    equalTo(getDafYomi()), // it's only for dafYomi for now
-    limitToFirst(NUM_OF_QUESTIONS)
-  );
-  const snapshot = await get(q);
-  snapshot.forEach((child) => {
-    questions[child.key] = child.val();
-  });
+  questions = JSON.parse(''); // FIX THIS
   hideLoader();
 }
 
@@ -79,7 +68,7 @@ async function newQuestion(gameType) {
   } else {
     endGame(DAFYOMI_GAME);
   }
-  
+
 }
 
 function checkAnswer(ansNum) {
