@@ -30,9 +30,6 @@ async function startGame(gameType) {
   showLoader();
 
   await getQuestions();
-  if (gameType === DAFYOMI_GAME) {
-    questionTitle.innerHTML = "הדף היומי";
-  }
 
   newQuestion(gameType);
 
@@ -75,28 +72,14 @@ function handleOneQuestion() {
 
 async function newQuestion(gameType) {
   gt = gameType;
-  if (gameType == DAFYOMI_GAME) {
-    if (questionIndex < Object.keys(questions).length) {
-      handleOneQuestion();
-      questionIndex++;
-    } else {
-      endGame(DAFYOMI_GAME);
-    }
-  } else if (gameType == MEDIUM) {
-    //משחק של דפי גמרא לבחירה
-    if (questionIndex < NUM_OF_QUESTIONS) {
-      questionTitle.innerHTML = "פשט הגמרא במסכת בבא קמא דף ב.";
-      question.innerHTML = "מה זה מבעה לדעת רב?";
-      answers[0].innerHTML = "שן";
-      answers[1].innerHTML = "רגל";
-      answers[2].innerHTML = "מים";
-      answers[3].innerHTML = "אדם";
-    } else {
-      endGame(2);
-    }
+  
+  if (questionIndex < NUM_OF_QUESTIONS) {
+    handleOneQuestion();
+    questionIndex++;
   } else {
-    //משחק של טורניר עם חברים
+    endGame(DAFYOMI_GAME);
   }
+  
 }
 
 function checkAnswer(ansNum) {

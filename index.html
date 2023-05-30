@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="he-IL">
   <head>
-    <title>חכמים - טריוויה על חכמי ישראל</title>
+    <title>חכמים - שעשועון על חכמי ישראל</title>
 
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -10,25 +10,15 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" href="images/logo.png" />
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-      crossorigin="anonymous"
-    />
-    <link
       href="https://fonts.googleapis.com/css2?family=Heebo&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
-    
+    <script src="navbar.js"></script>
     <div class="game-page-container">
       <div id="start-container">
-        <h2>חכמים - טריוויה על חכמי ישראל</h2>
+        <h2>חכמים - שעשועון על חכמי ישראל</h2>
         <div class="choose-game-container">
           <button class="game-type-btn" onclick="startGame(0)">
             קל
@@ -45,14 +35,7 @@
         </div>
       </div>
       <div id="game-container" hidden>
-        <h2>חכמים - טריוויה על חכמי ישראל</h2>
-        <h4>שאלה על <span class="question-title"></span></h4>
-        <div class="question-and-report">
-          <p class="question"></p>
-          <a href="#" class="report-btn" onclick="openReportPopUp()"
-            >דווח על השאלה</a
-          >
-        </div>
+        <h2>חכמים - שעשועון על חכמי ישראל</h2>
         <div class="answer-btn-group">
           <button
             class="answer-btn"
@@ -90,8 +73,6 @@
       </div>
       <div class="end-game-container" hidden>
         <p>
-          נגמרו השאלות על
-          <span class="end-game-type"></span>
           ענית נכונה על
           <span class="question-aswered-correctly-now"></span>
           <br />
@@ -102,19 +83,10 @@
             <button class="next-game-btn" onclick="startGame(1)">
               לשאלות על הדף היומי
             </button>
-            <button class="next-game-btn" onclick="openPopUp()">
-              לשאלות על דפי גמרא לבחירה
-            </button>
-            <button class="next-game-btn" onclick="openPopUp()">
-              לטורניר עם חברים על דפי גמרא לבחירה
-            </button>
           </div>
-          <button class="add-question-after-game-btn">
-            <a href="./add-question.html">להוספת שאלה למאגר השאלות שלנו</a>
-          </button>
         </div>
       </div>
-      <footer>© על הש"ס - נתאי קסנר ואייל הלמון</footer>
+      <footer>© עמותת שבושון</footer>
     </div>
 
     <div class="loader-container">
@@ -122,7 +94,7 @@
     </div>
     <div
       class="dark-screen"
-      onclick="closePopUp(), closeReportPopUp()"
+      onclick="closePopUp()"
       hidden
     ></div>
 
