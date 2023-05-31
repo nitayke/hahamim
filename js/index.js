@@ -47,6 +47,7 @@ async function startLevel() {
   questionIndex = 0;
   questions = [];
   level++;
+  document.getElementById('level').innerHTML = 'רמת קושי: ' + hebrew_types[level];
   showLoader();
   await getQuestions();
   newQuestion(level);
