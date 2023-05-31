@@ -19,7 +19,6 @@ const darkScreen = document.querySelector(".dark-screen");
 const gameContainer = document.getElementById("game-container");
 const gameFooter = document.querySelector(".game-footer");
 const endContainer = document.querySelector(".end-game-container");
-const nextGameBtns = document.querySelectorAll(".next-game-btn");
 var firstTime;
 var timeDistance;
 var time = 0;
@@ -31,8 +30,8 @@ let rightAnswer;
 let chosenAnswer;
 let questionIndex = 0;
 let score = 0;
-let level = -1;
-const NUM_OF_QUESTIONS = 6;
+let level = 0;
+const NUM_OF_QUESTIONS = 1;
 const types = ['easy', 'medium', 'hard', 'exotic'];
 const hebrew_types = ['קל', 'בינוני', 'כבד', 'אקזוטי'];
 
@@ -49,15 +48,14 @@ function timer() {
 
 function startGame() {
   startContainer.classList.add("scale-down");
-  startContainer.hidden = true;
-  gameContainer.hidden = false;
+  hide(startContainer);
+  show(gameContainer);
   startLevel();
 }
 
 async function startLevel() {
   questionIndex = 0;
   questions = [];
-  level++;
   document.getElementById('level').innerHTML = 'רמת קושי: ' + hebrew_types[level];
   showLoader();
   await getQuestions();
@@ -86,21 +84,30 @@ function handleOneQuestion() {
   rightAnswer = Object.values(questions)[questionIndex].type;
 }
 
+function endGame()
+{
+  hide(gameContainer);
+  show(endContainer);
+  document.querySelector(".score").innerHTML = score;
+}
+
 async function newQuestion() {
   if (questionIndex < NUM_OF_QUESTIONS) {  
     firstTime = new Date().getTime();
     interval = setInterval(timer, 51);
     handleOneQuestion();
     questionIndex++;
-  } else {
+  } else if (level < 3) {
+    level++;
     startLevel();
+  }
+  else {
+    endGame();
   }
 }
 
 function checkAnswer(ansNum) {
-  console.log(1, interval);
   clearInterval(interval);
-  console.log(2, interval);
   chosenAnswer = ansNum;
   answers.forEach((ans) => ans.classList.add("disable-pointer-events"));
   if (chosenAnswer == rightAnswer) {
@@ -112,10 +119,8 @@ function checkAnswer(ansNum) {
     answers[rightAnswer].classList.add("make-it-green");
     document.querySelector(".after-answer-text").innerHTML = "גרוע";
   }
-  document.querySelector(".score").innerHTML =
-    "ניקוד: " +
-    score;
-  gameFooter.hidden = false;
+  document.querySelector(".smaller-score").innerHTML = "ניקוד: " + score;
+  show(gameFooter);
 }
 
 function nextQuestion() {
@@ -125,20 +130,26 @@ function nextQuestion() {
     answers[rightAnswer].classList.remove("make-it-green");
   }
   document.querySelector(".game-footer").classList.remove("show-game-footer");
-  document.getElementById("game-container").hidden = true;
-  gameFooter.hidden = true;
+  hide(gameFooter);
   newQuestion(level);
-  document.getElementById("game-container").hidden = false;
 }
 
 function showLoader() {
-  loader.hidden = false;
-  darkScreen.hidden = false;
+  show(loader);
+  show(darkScreen);
 }
 
 function hideLoader() {
-  loader.hidden = true;
-  darkScreen.hidden = true;
+  hide(loader);
+  hide(darkScreen);
+}
+
+function hide(element) {
+  element.hidden = true;
+}
+
+function show(element) {
+  element.hidden = false;
 }
 
 window.startGame = startGame;
