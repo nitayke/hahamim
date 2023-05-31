@@ -22,12 +22,6 @@ const endContainer = document.querySelector(".end-game-container");
 const nextGameBtns = document.querySelectorAll(".next-game-btn");
 
 
-const EASY = 0;
-const MEDIUM = 1;
-const HARD = 2;
-const EXOTIC = 3;
-
-let questionTitle = document.querySelector(".question-title");
 let question = document.querySelector(".question");
 let answers = document.querySelectorAll(".answer-btn");
 let rightAnswer;
@@ -35,28 +29,34 @@ let chosenAnswer;
 let questionIndex = 0;
 let questionsAnsweredNow = 0;
 let questionsAnsweredCorrectlyNow = 0;
-let gt;
-const NUM_OF_QUESTIONS = 10;
-const types = ['easy', 'medium', 'hard', 'exotic']
+let level = -1;
+const NUM_OF_QUESTIONS = 6;
+const types = ['easy', 'medium', 'hard', 'exotic'];
+const hebrew_types = ['קל', 'בינוני', 'כבד', 'אקזוטי'];
 
 let questions = [];
 
-async function startGame(gameType) {
+function startGame() {
   startContainer.classList.add("scale-down");
   startContainer.hidden = true;
-  showLoader();
-
-  await getQuestions(gameType);
-
-  newQuestion(gameType);
-
   gameContainer.hidden = false;
+  startLevel();
 }
 
-async function getQuestions(gameType) {
+async function startLevel() {
+  questionIndex = 0;
+  questions = [];
+  level++;
+  showLoader();
+  await getQuestions();
+  newQuestion(level);
+}
+
+async function getQuestions() {
   const auth = getAuth();
   await signInAnonymously(auth);
-  const qRef = ref(getDatabase(), types[gameType]);
+  console.log(level, types[level])
+  const qRef = ref(getDatabase(), "questions/" + types[level]);
   const q = query(
     qRef,
     orderByChild("random_num"),
@@ -67,7 +67,6 @@ async function getQuestions(gameType) {
     update(child.ref, {"random_num": Math.floor(Math.random() * 100)}); // מבריק
     questions[child.key] = child.val();
   });
-  console.log(questions)
   hideLoader();
 }
 
@@ -76,13 +75,12 @@ function handleOneQuestion() {
   rightAnswer = Object.values(questions)[questionIndex].type;
 }
 
-async function newQuestion(gameType) {
-  gt = gameType;
+async function newQuestion() {
   if (questionIndex < NUM_OF_QUESTIONS) {
     handleOneQuestion();
     questionIndex++;
   } else {
-    endGame();
+    startLevel();
   }
 }
 
@@ -116,23 +114,8 @@ function nextQuestion() {
   document.querySelector(".game-footer").classList.remove("show-game-footer");
   document.getElementById("game-container").hidden = true;
   gameFooter.hidden = true;
-  newQuestion(gt);
+  newQuestion(level);
   document.getElementById("game-container").hidden = false;
-}
-
-function endGame(gameType) {
-  // לא יודע למה ההסתרה לא עובדת
-  gameContainer.hidden = true;
-  showLoader();
-
-  nextGameBtns[gameType].hidden = true;
-
-  document.querySelector(".end-game-type").innerHTML = type;
-  document.querySelector(".question-aswered-correctly-now").innerHTML =
-    questionsAnsweredCorrectlyNow;
-
-  endContainer.hidden = false;
-  hideLoader();
 }
 
 function showLoader() {
@@ -145,7 +128,6 @@ function hideLoader() {
   darkScreen.hidden = true;
 }
 
-// ugly way to solve the module problem
 window.startGame = startGame;
 window.checkAnswer = checkAnswer;
 window.nextQuestion = nextQuestion;
