@@ -93,7 +93,8 @@ function endGame()
   document.querySelector(".score").innerHTML = score;
 }
 
-function addError(errorPlace, errorText) {
+function addError(errorText) {
+  const errorPlace = document.querySelector(".error-place");
   errorPlace.previousElementSibling.classList.add("make-it-red");
   errorPlace.innerHTML = errorText;
 }
@@ -102,7 +103,7 @@ async function addRecord() {
   const name = document.getElementById('name').value;
   if (name === "")
   {
-    addError(document.querySelector(".error-place"), "אומרך להכניס שם");
+    addError("אומרך להכניס שם");
     return;
   }
   showLoader();

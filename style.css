@@ -11,6 +11,12 @@ body {
   background-color: #ecf8f7;
 }
 
+.about-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 ::-moz-selection {
   /* Code for Firefox */
   color: #ecf8f7;
@@ -25,12 +31,6 @@ body {
 header {
   position: absolute;
   opacity: 0;
-}
-
-.nav-head {
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 500;
 }
 
 h2 {
@@ -67,6 +67,12 @@ h2 {
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE10+/Edge */
   user-select: none; /* Standard */
+}
+
+.nav-head {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .logo-container {
@@ -419,14 +425,12 @@ optgroup option {
 }
 
 .game-page-container {
-  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
 
-#start-container,
 #game-container,
 #after-answer-container,
 .end-game-container,
@@ -434,6 +438,11 @@ optgroup option {
 .after-tournament-start{
   margin-top: 8rem;
   width: 40%;
+  text-align: center;
+}
+
+#start-container {
+  margin: 8rem;
   text-align: center;
 }
 
