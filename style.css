@@ -347,8 +347,7 @@ footer {
   width: 80%;
 }
 
-.box1,
-.box2 {
+.box {
   width: 40%;
   display: flex;
   flex-direction: column;
@@ -409,8 +408,7 @@ optgroup option {
     flex-direction: column;
   }
 
-  .box1,
-  .box2 {
+  .box {
     width: 100%;
   }
 }

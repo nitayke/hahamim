@@ -9,90 +9,40 @@ layout: default
   <form class="add-question-form" id="add-question-form" autocomplete="off">
     <h2>הוסף שאלה</h2>
     <div class="main-form-container">
-      <div class="box1">
-        <label>השאלה שלי על הדף היומי:</label>
-        <input type="checkbox" />
-        <label>על איזה מסכת השאלה שלך?</label>
-        <select
-          class="add-question-box"
-          id="masechet"
-          onchange="updatePages(), removeError(0)"
-        >
-          <option value="" disabled selected hidden>בחר מסכת</option>
-        </select>
-        <div class="error-place"></div>
-        <label>על איזה דף השאלה שלך?</label>
-        <select
-          class="add-question-box"
-          id="page"
-          onchange="removeError(1)"
-        >
-          <!--Added with JS-->
-          <option value="" selected disabled hidden>בחר דף</option>
-          <option disabled>נא לבחור מסכת קודם!</option>
-        </select>
-        <div class="error-place"></div>
-        <label>מה סוג השאלה שלך?</label>
-        <select
-          class="add-question-box"
-          id="type"
-          onchange="removeError(2)"
-        >
-          <option value="" selected disabled hidden>בחר סוג שאלה</option>
-          <option value="0">שאלה על פשט הגמרא</option>
-          <option value="1">שאלה על פשט הגמרא עם פירוש רש"י</option>
-          <option value="2">שאלה על פשט הגמרא עם פירוש התוספות</option>
-        </select>
-        <div class="error-place"></div>
-        <label>מחבר השאלה (לא חובה)</label>
-        <input id="author" class="add-question-box" />
-      </div>
-      <div class="middle-border"></div>
-      <div class="box2">
+      <div class="box">
         <label>השאלה</label>
         <input
           id="q"
-          name="q"
           class="add-question-box"
-          onfocus="removeError(3)"
-          onchange="removeError(3)"
+          onfocus="removeError(0)"
+          onchange="removeError(0)"
         />
         <div class="error-place"></div>
-        <label>תשובה נכונה</label>
-        <input
-          id="a1"
-          name="a1"
+        <label>מה התשובה?</label>
+        <select
           class="add-question-box"
-          onfocus="removeError(4)"
-          onchange="removeError(3)"
-        />
+          id="answer"
+          onchange="removeError(1)"
+        >
+          <option value="" selected disabled hidden>בחר תשובה</option>
+          <option value="0">תנא</option>
+          <option value="1">אמורא</option>
+          <option value="2">ראשון</option>
+          <option value="3">אחרון</option>
+        </select>
         <div class="error-place"></div>
-        <label>תשובה שגויה</label>
-        <input
-          id="a2"
-          name="a2"
+        <label>דרגת קושי</label>
+        <select
           class="add-question-box"
-          onfocus="removeError(5)"
-          onchange="removeError(3)"
-        />
-        <div class="error-place"></div>
-        <labal>תשובה שגויה</labal>
-        <input
-          id="a3"
-          name="a3"
-          class="add-question-box"
-          onfocus="removeError(6)"
-          onchange="removeError(3)"
-        />
-        <div class="error-place"></div>
-        <label>תשובה שגויה</label>
-        <input
-          id="a4"
-          name="a4"
-          class="add-question-box"
-          onfocus="removeError(7)"
-          onchange="removeError(3)"
-        />
+          id="level"
+          onchange="removeError(2)"
+        >
+          <option value="" selected disabled hidden>בחר דרגת קושי</option>
+          <option value="0">קל</option>
+          <option value="1">בינוני</option>
+          <option value="2">כבד</option>
+          <option value="3">אקזוטי</option>
+        </select>
         <div class="error-place"></div>
       </div>
     </div>
