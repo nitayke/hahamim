@@ -5,7 +5,7 @@ from random import randint
 f = open('list.txt', encoding="utf8")
 txt = f.read()
 f.close()
-data = [i.split('\n') for i in txt.split('\t')]
+data = [i.split('\n') for i in txt.split('\n\n')]
 print(data)
 print(len(data))
 json = {}
@@ -22,6 +22,6 @@ for count, i in enumerate(levels):
             json[i][key]["random_num"] = randint(0, 100)
             json[i][key]["type"] = count1
 
-j = dumps(json, ensure_ascii=False)
+j = dumps({"questions": json}, ensure_ascii=False)
 with open('result.json', 'w', encoding="utf-8") as f:
     f.write(j)
