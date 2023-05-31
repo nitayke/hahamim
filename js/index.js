@@ -20,21 +20,32 @@ const gameContainer = document.getElementById("game-container");
 const gameFooter = document.querySelector(".game-footer");
 const endContainer = document.querySelector(".end-game-container");
 const nextGameBtns = document.querySelectorAll(".next-game-btn");
-
+var firstTime;
+var timeDistance;
+var time = 0;
+var interval;
 
 let question = document.querySelector(".question");
 let answers = document.querySelectorAll(".answer-btn");
 let rightAnswer;
 let chosenAnswer;
 let questionIndex = 0;
-let questionsAnsweredNow = 0;
-let questionsAnsweredCorrectlyNow = 0;
+let score = 0;
 let level = -1;
 const NUM_OF_QUESTIONS = 6;
 const types = ['easy', 'medium', 'hard', 'exotic'];
 const hebrew_types = ['קל', 'בינוני', 'כבד', 'אקזוטי'];
 
 let questions = [];
+
+function timer() {
+  var now = new Date().getTime();
+  timeDistance = now - firstTime;
+  var seconds = Math.floor(timeDistance / 1000);
+  var milliseconds = Math.floor((timeDistance % 1000) / 10);
+  time = seconds.toFixed() + ":" +  String(milliseconds).padStart(2, '0');
+  document.getElementById("time").innerHTML = time;
+}
 
 function startGame() {
   startContainer.classList.add("scale-down");
@@ -50,13 +61,13 @@ async function startLevel() {
   document.getElementById('level').innerHTML = 'רמת קושי: ' + hebrew_types[level];
   showLoader();
   await getQuestions();
-  newQuestion(level);
+  newQuestion();
+  hideLoader();
 }
 
 async function getQuestions() {
   const auth = getAuth();
   await signInAnonymously(auth);
-  console.log(level, types[level])
   const qRef = ref(getDatabase(), "questions/" + types[level]);
   const q = query(
     qRef,
@@ -68,7 +79,6 @@ async function getQuestions() {
     update(child.ref, {"random_num": Math.floor(Math.random() * 100)}); // מבריק
     questions[child.key] = child.val();
   });
-  hideLoader();
 }
 
 function handleOneQuestion() {
@@ -77,7 +87,9 @@ function handleOneQuestion() {
 }
 
 async function newQuestion() {
-  if (questionIndex < NUM_OF_QUESTIONS) {
+  if (questionIndex < NUM_OF_QUESTIONS) {  
+    firstTime = new Date().getTime();
+    interval = setInterval(timer, 51);
     handleOneQuestion();
     questionIndex++;
   } else {
@@ -86,23 +98,23 @@ async function newQuestion() {
 }
 
 function checkAnswer(ansNum) {
+  console.log(1, interval);
+  clearInterval(interval);
+  console.log(2, interval);
   chosenAnswer = ansNum;
   answers.forEach((ans) => ans.classList.add("disable-pointer-events"));
   if (chosenAnswer == rightAnswer) {
     answers[chosenAnswer].classList.add("make-it-green");
     document.querySelector(".after-answer-text").innerHTML = "יפה מאוד";
-    questionsAnsweredCorrectlyNow++;
+    score += Math.floor(100 * Math.pow(Math.E, -0.08*(timeDistance/1000)));
   } else {
     answers[chosenAnswer].classList.add("make-it-red");
     answers[rightAnswer].classList.add("make-it-green");
     document.querySelector(".after-answer-text").innerHTML = "גרוע";
   }
-  questionsAnsweredNow++;
-  document.querySelector(".questions-answered-correctly-now").innerHTML =
-    "שאלות שענית נכונה עד כה: " +
-    questionsAnsweredCorrectlyNow +
-    "/" +
-    questionsAnsweredNow;
+  document.querySelector(".score").innerHTML =
+    "ניקוד: " +
+    score;
   gameFooter.hidden = false;
 }
 
