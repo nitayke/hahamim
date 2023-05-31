@@ -20,10 +20,6 @@ document.getElementById("add-question-form")
     let question = document.getElementById('q');
     let answer = document.getElementById('answer');
     let level = document.getElementById('level');
-    let a1 = document.getElementById("a1");
-    let a2 = document.getElementById("a2");
-    let a3 = document.getElementById("a3");
-    let a4 = document.getElementById("a4");
 
 
     if (question.value.replace(/[^A-Za-z]/g, "")) {

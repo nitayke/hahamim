@@ -55,6 +55,21 @@ layout: default
       <br />
       שכוייח!
     </p>
+    
+    <label>כתוב את שמך בשביל לרשום את השיא בטבלה:</label>
+    <input
+      id="name"
+      class="text-box"
+    />
+    <div class="error-place"></div>
+    <input
+      type="submit"
+      class="add-question-btn"
+      id="add-question-btn"
+      value="הוסף שאלה"
+      onclick="addRecord()"
+    />
+    
     <div class="end-game-btns-container">
       <button class="add-question-after-game-btn">
         <a href="./add-question.html">להוספת שאלה למאגר השאלות שלנו</a>

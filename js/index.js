@@ -4,6 +4,8 @@ import {
   update,
   orderByChild,
   query,
+  set,
+  push,
   get,
   limitToFirst,
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
@@ -91,6 +93,31 @@ function endGame()
   document.querySelector(".score").innerHTML = score;
 }
 
+function addError(errorPlace, errorText) {
+  errorPlace.previousElementSibling.classList.add("make-it-red");
+  errorPlace.innerHTML = errorText;
+}
+
+async function addRecord() {
+  const name = document.getElementById('name').value;
+  if (name === "")
+  {
+    addError(document.querySelector(".error-place"), "אומרך להכניס שם");
+    return;
+  }
+  showLoader();
+  const quesionsRef = ref(getDatabase(), "records");
+  const newQuestionRef = push(quesionsRef);
+
+  const auth = getAuth();
+  await signInAnonymously(auth);
+  await set(newQuestionRef, {
+    name: name,
+    score: score
+  });
+  window.location.href = "index.html";
+}
+
 async function newQuestion() {
   if (questionIndex < NUM_OF_QUESTIONS) {  
     firstTime = new Date().getTime();
@@ -155,3 +182,4 @@ function show(element) {
 window.startGame = startGame;
 window.checkAnswer = checkAnswer;
 window.nextQuestion = nextQuestion;
+window.addRecord = addRecord;
