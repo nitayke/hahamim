@@ -9,15 +9,13 @@ layout: default
     <h2>חז"ל - שעשועון על חכמי ישראל</h2>
     <p>לפניכם שעשועון שמטרתו להכיר יותר את חכמינו ז"ל.</p>
     <p>בכל שאלה יהיה שם של חכם ואתם תצטרכו לדעת מאיזה דור הוא.</p>
-    <p>יש שלוש רמות קושי ואחרי כן יש שלב "אקזוטי" שבו יהיו שמות של פיוטים או תקנות וכן הלאה</p>
+    <p>יש שלוש רמות קושי ואחרי כן יש שלב "אקזוטי" שבו יהיו שמות של פיוטים או תקנות או דמויות מאותה תקופה.</p>
     <p>בכל דרגת קושי יהיו 6 שאלות, בסה"כ 24 שאלות.</p>
     <p>השעשועון על זמן, ויש ניקוד לפי הזמן.</p>
     <p>בהצלחה!</p>
-    <div class="choose-game-container">
-      <button class="game-type-btn" onclick="startGame()">
-        התחל משחק
-      </button>
-    </div>
+    <button onclick="startGame()" class="btn">
+      התחל משחק
+    </button>
   </div>
   <div id="game-container" hidden>
     <h3 id="level"></h3>
@@ -44,7 +42,7 @@ layout: default
     <div class="game-footer" hidden>
       <div class="game-footer-top">
         <span class="after-answer-text"></span>
-        <button class="next-question-btn" onclick="nextQuestion()">
+        <button onclick="nextQuestion()" class="btn">
           לשאלה הבאה
         </button>
       </div>
@@ -68,19 +66,14 @@ layout: default
       class="text-box"
     />
     <div class="error-place"></div>
-    <input
-      type="submit"
-      class="add-question-btn"
-      id="add-question-btn"
-      value="הוסף שאלה"
-      onclick="addRecord()"
-    />
-    
     <div class="end-game-btns-container">
-      <button class="add-question-after-game-btn">
-        <a href="./add-question.html">להוספת שאלה למאגר השאלות שלנו</a>
+      <button
+      class="btn"
+      onclick="addRecord()">הוסף שיא</button>
+      <button onclick="window.location.replace('add-question.html')" class="btn">
+        להוספת שאלה למאגר השאלות
       </button>
+      <button onclick="window.location.replace('index.html')" class="btn">חזור לדף הבית</button>
     </div>
   </div>
-  <footer>© עמותת שבושון</footer>
 </div>
