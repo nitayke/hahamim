@@ -1,14 +1,10 @@
 import {
   getDatabase,
   ref,
-  update,
-  orderByChild,
   child,
-  query,
   set,
   push,
   get,
-  limitToFirst,
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 import {
   getAuth,
