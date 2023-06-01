@@ -3,6 +3,7 @@ import {
   ref,
   update,
   orderByChild,
+  child,
   query,
   set,
   push,
@@ -33,11 +34,9 @@ let chosenAnswer;
 let questionIndex = 0;
 let score = 0;
 let level = 0;
-const NUM_OF_QUESTIONS = 1;
+const NUM_OF_QUESTIONS = 6;
 const types = ['easy', 'medium', 'hard', 'exotic'];
 const hebrew_types = ['קל', 'בינוני', 'כבד', 'אקזוטי'];
-
-let questions = [];
 
 function timer() {
   var now = new Date().getTime();
@@ -57,33 +56,42 @@ function startGame() {
 
 async function startLevel() {
   questionIndex = 0;
-  questions = [];
   document.getElementById('level').innerHTML = 'רמת קושי: ' + hebrew_types[level];
-  showLoader();
-  await getQuestions();
   newQuestion();
-  hideLoader();
 }
 
-async function getQuestions() {
+async function getQuestion() {
   const auth = getAuth();
   await signInAnonymously(auth);
   const qRef = ref(getDatabase(), "questions/" + types[level]);
-  const q = query(
-    qRef,
-    orderByChild("random_num"),
-    limitToFirst(NUM_OF_QUESTIONS)
-  );
-  const snapshot = await get(q);
-  snapshot.forEach((child) => {
-    update(child.ref, {"random_num": Math.floor(Math.random() * 100)}); // מבריק
-    questions[child.key] = child.val();
-  });
+  var snapshot = await get(child(qRef, "count"));
+  const count = snapshot.val();
+  const rand = Math.floor(Math.random() * count);
+  snapshot = await get(child(qRef, String(rand)));
+  return snapshot.val();
 }
 
-function handleOneQuestion() {
-  question.innerHTML = Object.values(questions)[questionIndex].name;
-  rightAnswer = Object.values(questions)[questionIndex].type;
+async function newQuestion() {
+  if (questionIndex < NUM_OF_QUESTIONS) {  
+    await handleOneQuestion();
+    firstTime = new Date().getTime();
+    interval = setInterval(timer, 51);
+    questionIndex++;
+  } else if (level < 3) {
+    level++;
+    startLevel();
+  }
+  else {
+    endGame();
+  }
+}
+
+async function handleOneQuestion() {
+  showLoader();
+  const question1 = await getQuestion();
+  question.innerHTML = question1.name;
+  rightAnswer = question1.type;
+  hideLoader();
 }
 
 function endGame()
@@ -119,21 +127,6 @@ async function addRecord() {
   window.location.href = "index.html";
 }
 
-async function newQuestion() {
-  if (questionIndex < NUM_OF_QUESTIONS) {  
-    firstTime = new Date().getTime();
-    interval = setInterval(timer, 51);
-    handleOneQuestion();
-    questionIndex++;
-  } else if (level < 3) {
-    level++;
-    startLevel();
-  }
-  else {
-    endGame();
-  }
-}
-
 function checkAnswer(ansNum) {
   clearInterval(interval);
   chosenAnswer = ansNum;
@@ -141,7 +134,7 @@ function checkAnswer(ansNum) {
   if (chosenAnswer == rightAnswer) {
     answers[chosenAnswer].classList.add("make-it-green");
     document.querySelector(".after-answer-text").innerHTML = "יפה מאוד";
-    score += Math.floor(100 * Math.pow(Math.E, -0.08*(timeDistance/1000)));
+    score += Math.floor(100 * Math.pow(Math.E, -0.15*(timeDistance/1000)));
   } else {
     answers[chosenAnswer].classList.add("make-it-red");
     answers[rightAnswer].classList.add("make-it-green");
