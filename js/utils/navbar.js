@@ -22,18 +22,6 @@ function hideMobileMenu() {
 
 menuLinks.addEventListener("click", hideMobileMenu);
 
-//POPUP
-function openPopUp() {
-  document.querySelector(".dark-screen").hidden = false;
-  document.querySelector(".pop-up-img").hidden = false;
-  document.querySelector(".pop-up-text").hidden = false;
-}
-function closePopUp() {
-  document.querySelector(".pop-up-img").hidden = true;
-  document.querySelector(".pop-up-text").hidden = true;
-  document.querySelector(".dark-screen").hidden = true;
-}
-
 const navLinks = document.querySelectorAll(".nav-links");
 
 window.onload = function checkActivepage() {
@@ -42,7 +30,6 @@ window.onload = function checkActivepage() {
   } else if (window.location.href.includes("add-question")) {
     changeActivePage(1);
   } else if (window.location.href.includes("records")) {
-    console.log(1)
     changeActivePage(2);
   } else {
     changeActivePage(0);
