@@ -11,6 +11,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
 function getRecords() {
+  
   const scoresRef = ref(getDatabase(), "scores");
   const q = query(scoresRef, orderByChild("nitay")); // works
   get(q).then((snapshot) => {
