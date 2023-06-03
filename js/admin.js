@@ -23,7 +23,7 @@ async function getData() {
   });
 }
 
-function click() {
+function click(bool) {
     // TODO: approve or decline. add to DB
     const q = questions[index];
     document.getElementById('q').innerHTML = "שאלה: " + q.q;

@@ -30,6 +30,9 @@ let chosenAnswer;
 let questionIndex = 0;
 let score = 0;
 let level = 0;
+let indexes_questions;
+let qRef;
+let count;
 const NUM_OF_QUESTIONS = 6;
 const types = ['easy', 'medium', 'hard', 'exotic'];
 const hebrew_types = ['קל', 'בינוני', 'כבד', 'אקזוטי'];
@@ -47,23 +50,26 @@ function startGame() {
   startContainer.classList.add("scale-down");
   hide(startContainer);
   show(gameContainer);
+  showLoader();
   startLevel();
 }
 
 async function startLevel() {
+  const auth = getAuth();
+  await signInAnonymously(auth);
+  qRef = ref(getDatabase(), "questions/" + types[level]);
+  var snapshot = await get(child(qRef, "count"));
+  count = snapshot.val();
   questionIndex = 0;
+  indexes_questions = Array.from(Array(count).keys());
   document.getElementById('level').innerHTML = 'רמת קושי: ' + hebrew_types[level];
   newQuestion();
 }
 
 async function getQuestion() {
-  const auth = getAuth();
-  await signInAnonymously(auth);
-  const qRef = ref(getDatabase(), "questions/" + types[level]);
-  var snapshot = await get(child(qRef, "count"));
-  const count = snapshot.val();
-  const rand = Math.floor(Math.random() * count);
-  snapshot = await get(child(qRef, String(rand)));
+  const rand = indexes_questions[Math.floor(Math.random() * count)];
+  indexes_questions.splice(indexes_questions.indexOf(rand), 1);
+  const snapshot = await get(child(qRef, String(rand)));
   return snapshot.val();
 }
 
