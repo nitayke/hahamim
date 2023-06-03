@@ -6,17 +6,19 @@ layout: default
 <script type="module" src="js/index.js"></script>
 <div class="game-page-container">
   <div id="start-container">
-    <h2>חז"ל - שעשועון על חכמי ישראל</h2>
+    <h2>{{site.title}} - {{site.subtitle}}</h2>
     <p>לפניכם שעשועון שמטרתו להכיר יותר את חכמינו ז"ל.</p>
     <p>בכל שאלה יהיה שם של חכם ואתם תצטרכו לדעת מאיזה דור הוא.</p>
     <p>יש שלוש רמות קושי ואחרי כן יש שלב "אקזוטי" שבו יהיו שמות של פיוטים או תקנות או דמויות מאותה תקופה.</p>
-    <p>בכל דרגת קושי יהיו 6 שאלות, בסה"כ 24 שאלות.</p>
+    <p>בכל דרגת קושי יהיו 5 שאלות, בסה"כ 20 שאלות.</p>
     <p>השעשועון על זמן, ויש ניקוד לפי הזמן.</p>
     <p>בהצלחה!</p>
     <button onclick="startGame()" class="btn">
       התחל משחק
     </button>
-  </div>
+    <p>מונה כניסות:</p>
+    <img src="https://counter10.optistats.ovh/private/freecounterstat.php?c=pw7z3a8dc43l6x53rjgq814x2e6h6cqk">
+    </div>
   <div id="game-container" hidden>
     <h3 id="level"></h3>
     <h3 class="question"></h3>
@@ -48,32 +50,39 @@ layout: default
       </div>
 
       <div class="game-footer-bottom">
-        <span class="smaller-score"></span>
+        <span id="smaller-score"></span>
       </div>
     </div>
   </div>
   <div class="end-game-container" hidden>
     <p>
       הניקוד שלך הוא:
-      <span class="score"></span>
-      <br />
+      <span id="score"></span>
+      <br>
+      המיקום שלך בציבור הוא:
+      <span id="location"></span>
+      <br>
       שכוייח!
     </p>
     
-    <label>כתוב את שמך בשביל לרשום את השיא בטבלה:</label>
-    <input
-      id="name"
-      class="text-box"
-    />
-    <div class="error-place"></div>
-    <div class="end-game-btns-container">
+    <div id="enter-record" hidden>
+      <label>כתוב את שמך בשביל לרשום את השיא בטבלה:</label>
+      <input
+        id="name"
+        class="text-box"
+      />
+      <div class="error-place"></div>
+      
       <button
       class="btn"
       onclick="addRecord()">הוסף שיא</button>
+      <br><br>
+    </div>
+
       <button onclick="window.location.replace('add-question.html')" class="btn">
         להוספת שאלה למאגר השאלות
       </button>
       <button onclick="window.location.replace('index.html')" class="btn">חזור לדף הבית</button>
-    </div>
+      <button onclick="window.location.replace('records.html')" class="btn">לרשימת השיאים</button>
   </div>
 </div>
