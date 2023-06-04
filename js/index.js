@@ -40,7 +40,7 @@ let score = 0;
 let level = 0;
 let indexes_questions;
 let qRef;
-const NUM_OF_QUESTIONS = 1;
+const NUM_OF_QUESTIONS = 5;
 const types = ['easy', 'medium', 'hard', 'exotic'];
 const hebrew_types = ['קל', 'בינוני', 'כבד', 'אקזוטי'];
 
@@ -164,7 +164,6 @@ async function addRecord() {
   }
   showLoader();
 
-  console.log("records/" + Object.keys(last_record)[0]);
   await remove(ref(getDatabase(), "records/" + Object.keys(last_record)[0]));
 
   const recordsRef = ref(getDatabase(), "records");
