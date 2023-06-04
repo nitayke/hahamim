@@ -64,7 +64,7 @@ layout: default
       שכוייח!
     </p>
     
-    <div id="enter-record" hidden>
+    <div id="enter-record" class="game-page-container" hidden>
       <label>כתוב את שמך בשביל לרשום את השיא בטבלה:</label>
       <input
         id="name"
@@ -75,13 +75,14 @@ layout: default
       <button
       class="btn"
       onclick="addRecord()">הוסף שיא</button>
-      <br><br>
+      <br>
     </div>
-
+    <div class="game-page-container">
       <button onclick="window.location.replace('add-question.html')" class="btn">
         להוספת שאלה למאגר השאלות
       </button>
       <button onclick="window.location.replace('index.html')" class="btn">חזור לדף הבית</button>
       <button onclick="window.location.replace('records.html')" class="btn">לרשימת השיאים</button>
+    </div>
   </div>
 </div>

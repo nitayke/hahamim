@@ -115,7 +115,7 @@ function checkAnswer(ansNum) {
   } else {
     answers[chosenAnswer].classList.add("make-it-red");
     answers[rightAnswer].classList.add("make-it-green");
-    document.querySelector(".after-answer-text").innerHTML = "גרוע";
+    document.querySelector(".after-answer-text").innerHTML = "חבל מאוד";
   }
   document.getElementById("smaller-score").innerHTML = "ניקוד: " + score;
   show('game-footer');

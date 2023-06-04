@@ -17,10 +17,8 @@ body {
   align-items: center;
 }
 
-::-moz-selection {
-  /* Code for Firefox */
-  color: #ecf8f7;
-  background: #0294a2;
+.about-container p {
+  margin: 1rem;
 }
 
 ::selection {
@@ -378,15 +376,14 @@ optgroup option {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
 }
 
 #game-container,
 #after-answer-container,
-.end-game-container,
-.after-regular-game-start,
-.after-tournament-start{
+.end-game-container {
   margin-top: 3rem;
-  width: 40%;
+  width: 60%;
   text-align: center;
 }
 
@@ -418,6 +415,7 @@ optgroup option {
 #game-container .answer-btn-group {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 }
 
 #game-container p {
@@ -432,7 +430,7 @@ optgroup option {
   background-color: #fff;
   border: 2px solid #333;
   border-radius: 4px;
-  margin-bottom: 0.5rem;
+  /* margin-bottom: 0.5rem; */
   text-align: start;
   padding: 8px 10px 32px 10px;
   cursor: pointer;
@@ -441,10 +439,6 @@ optgroup option {
 
 .answer-btn:active {
   transform: scale(98%);
-}
-
-.game-page-container {
-  transition: translate 2s ease;
 }
 
 .game-footer-top,
