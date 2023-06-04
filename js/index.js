@@ -55,6 +55,16 @@ function timer() {
   document.getElementById("time").innerHTML = time;
 }
 
+async function restartGame() {
+  showLoader();
+  hide('end-game-container');
+  show('game-container');
+  score = 0;
+  questionIndex = 0;
+  level = 0;
+  startLevel();
+}
+
 async function startGame() {
   hide('start-container');
   show('game-container');
@@ -214,3 +224,4 @@ window.startGame = startGame;
 window.checkAnswer = checkAnswer;
 window.nextQuestion = nextQuestion;
 window.addRecord = addRecord;
+window.restartGame = restartGame;
