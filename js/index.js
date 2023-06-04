@@ -126,6 +126,8 @@ function checkAnswer(ansNum) {
     answers[chosenAnswer].classList.add("make-it-red");
     answers[rightAnswer].classList.add("make-it-green");
     document.querySelector(".after-answer-text").innerHTML = "חבל מאוד";
+    show('google');
+    document.getElementById('google').href = 'https://www.google.com/search?q=' + question.innerHTML;
   }
   document.getElementById("smaller-score").innerHTML = "ניקוד: " + score;
   show('game-footer');
@@ -133,6 +135,7 @@ function checkAnswer(ansNum) {
 
 function nextQuestion() {
   showLoader();
+  hide('google');
   answers.forEach((ans) => ans.classList.remove("disable-pointer-events"));
   if (document.querySelector(".make-it-green")) {
     answers[chosenAnswer].classList.remove("make-it-red");
