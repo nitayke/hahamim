@@ -9,16 +9,14 @@ layout: default
     <h2>{{site.title}} - {{site.subtitle}}</h2>
     <p>לפניכם שעשועון שמטרתו להכיר יותר את חכמינו ז"ל.</p>
     <p>בכל שאלה יהיה שם של חכם ואתם תצטרכו לדעת מאיזה דור הוא.</p>
-    <p>יש שלוש רמות קושי ואחרי כן יש שלב "אקזוטי" שבו יהיו שמות של פיוטים או תקנות או דמויות מאותה תקופה.</p>
-    <p>בכל דרגת קושי יהיו 5 שאלות, בסה"כ 20 שאלות.</p>
+    <p>יש שלוש רמות קושי - קל, בינוני, כבד.</p>
+    <p>בכל דרגת קושי יהיו 6 שאלות, בסה"כ 18 שאלות.</p>
     <p>השעשועון על זמן, ויש ניקוד לפי הזמן.</p>
     <p>בהצלחה!</p>
     <button onclick="startGame()" class="btn">
       התחל משחק
     </button>
-    <p>מונה כניסות:</p>
-    <img src="https://counter10.optistats.ovh/private/freecounterstat.php?c=pw7z3a8dc43l6x53rjgq814x2e6h6cqk">
-    </div>
+  </div>
   <div id="game-container" hidden>
     <h3 id="level"></h3>
     <h3 class="question"></h3>
@@ -41,6 +39,7 @@ layout: default
       >אחרון</button>
     </div>
     <p id="time"></p>
+    <p id="question-count"></p>
     <div class="game-footer" id="game-footer" hidden>
       <div class="game-footer-top">
         <span class="after-answer-text"></span>

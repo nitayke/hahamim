@@ -40,9 +40,11 @@ let score = 0;
 let level = 0;
 let indexes_questions;
 let qRef;
-const NUM_OF_QUESTIONS = 5;
-const types = ['easy', 'medium', 'hard', 'exotic'];
-const hebrew_types = ['קל', 'בינוני', 'כבד', 'אקזוטי'];
+const questions_in_level = 6;
+const types = ['easy', 'medium', 'hard'];
+const hebrew_types = ['קל', 'בינוני', 'כבד'];
+const num_of_questions = questions_in_level * types.length;
+const MAX_SCORE_PER_QUESTION = 100;
 
 function timer() {
   var now = new Date().getTime();
@@ -73,12 +75,12 @@ async function startLevel() {
 }
 
 async function newQuestion() {
-  if (questionIndex < NUM_OF_QUESTIONS) {  
+  if (questionIndex < questions_in_level) {  
     await handleOneQuestion();
     firstTime = new Date().getTime();
     interval = setInterval(timer, 51);
     questionIndex++;
-  } else if (level < 3) {
+  } else if (level < 2) {
     level++;
     startLevel();
   }
@@ -98,6 +100,7 @@ async function handleOneQuestion() {
   const question1 = await getQuestion();
   question.innerHTML = question1.name;
   rightAnswer = question1.type;
+  document.getElementById('question-count').innerHTML = 'שאלה ' + (1 + questionIndex + level * questions_in_level) + ' מתוך ' + num_of_questions;
   hideLoader();
 }
 
@@ -108,7 +111,7 @@ function checkAnswer(ansNum) {
   if (chosenAnswer == rightAnswer) {
     answers[chosenAnswer].classList.add("make-it-green");
     document.querySelector(".after-answer-text").innerHTML = "יפה מאוד";
-    score += Math.floor(100 * Math.pow(Math.E, -0.15*(timeDistance/1000)));
+    score += Math.floor(MAX_SCORE_PER_QUESTION * Math.pow(Math.E, -0.15*(timeDistance/1000)));
   } else {
     answers[chosenAnswer].classList.add("make-it-red");
     answers[rightAnswer].classList.add("make-it-green");
@@ -163,7 +166,7 @@ async function getLocation()
   const score_level = Math.floor(score / 10);
   var snapshot = await get(child(qRef, 'sum'));
   var all_sum = snapshot.val();
-  const higher_scores = query(qRef, limitToLast(201 - score_level));
+  const higher_scores = query(qRef, limitToLast((MAX_SCORE_PER_QUESTION * num_of_questions) / 10 + 1 - score_level));
   snapshot = await get(higher_scores);
   var sum = 1;
   snapshot.forEach(child => {
