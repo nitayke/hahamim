@@ -373,11 +373,6 @@ optgroup option {
   }
 }
 
-.scale-down {
-  transform: scale(0);
-  transition: transform 200ms ease;
-}
-
 .game-page-container {
   display: flex;
   flex-direction: column;

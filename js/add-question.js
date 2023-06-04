@@ -9,8 +9,6 @@ import {
   signInAnonymously,
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-var d = {};
-
 let errorPlaces = document.querySelectorAll(".error-place");
 document.getElementById("add-question-form")
   .addEventListener("submit", function (e) {
@@ -42,11 +40,6 @@ document.getElementById("add-question-form")
       addQuestion();
     }
   });
-
-function addError(errorPlace, errorText) {
-  errorPlace.previousElementSibling.classList.add("make-it-red");
-  errorPlace.innerHTML = errorText;
-}
 
 window.removeError = function removeError(errorPlace) {
   errorPlaces[errorPlace].previousElementSibling.classList.remove(

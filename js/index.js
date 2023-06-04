@@ -17,14 +17,14 @@ import {
   getAuth,
   signInAnonymously,
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+import {
+  showLoader,
+  hideLoader,
+  show,
+  hide
+} from './utils/functions.js';
 
 
-const startContainer = document.getElementById("start-container");
-const loader = document.querySelector(".loader");
-const darkScreen = document.querySelector(".dark-screen");
-const gameContainer = document.getElementById("game-container");
-const gameFooter = document.querySelector(".game-footer");
-const endContainer = document.querySelector(".end-game-container");
 var firstTime;
 var timeDistance;
 var time = 0;
@@ -53,28 +53,9 @@ function timer() {
   document.getElementById("time").innerHTML = time;
 }
 
-function showLoader() {
-  show(loader);
-  show(darkScreen);
-}
-
-function hideLoader() {
-  hide(loader);
-  hide(darkScreen);
-}
-
-function hide(element) {
-  element.hidden = true;
-}
-
-function show(element) {
-  element.hidden = false;
-}
-
 async function startGame() {
-  startContainer.classList.add("scale-down");
-  hide(startContainer);
-  show(gameContainer);
+  hide('start-container');
+  show('game-container');
   showLoader();
   const auth = getAuth();
   await signInAnonymously(auth);
@@ -120,12 +101,6 @@ async function handleOneQuestion() {
   hideLoader();
 }
 
-function addError(errorText) {
-  const errorPlace = document.querySelector(".error-place");
-  errorPlace.previousElementSibling.classList.add("make-it-red");
-  errorPlace.innerHTML = errorText;
-}
-
 function checkAnswer(ansNum) {
   clearInterval(interval);
   chosenAnswer = ansNum;
@@ -140,7 +115,7 @@ function checkAnswer(ansNum) {
     document.querySelector(".after-answer-text").innerHTML = "גרוע";
   }
   document.getElementById("smaller-score").innerHTML = "ניקוד: " + score;
-  show(gameFooter);
+  show('game-footer');
 }
 
 function nextQuestion() {
@@ -150,8 +125,7 @@ function nextQuestion() {
     answers[chosenAnswer].classList.remove("make-it-red");
     answers[rightAnswer].classList.remove("make-it-green");
   }
-  document.querySelector(".game-footer").classList.remove("show-game-footer");
-  hide(gameFooter);
+  hide('game-footer');
   newQuestion(level);
 }
 
@@ -159,7 +133,7 @@ async function addRecord() {
   const name = document.getElementById('name').value;
   if (name === "")
   {
-    addError("אומרך להכניס שם");
+    addError(document.querySelector(".error-place"), "אומרך להכניס שם");
     return;
   }
   showLoader();
@@ -207,13 +181,13 @@ async function getLocation()
 async function endGame()
 {
   showLoader();
-  hide(gameContainer);
-  show(endContainer);
+  hide('game-container');
+  show('end-game-container');
   qRef = ref(getDatabase(), "scores");
 
   await get10th();
   if (score > Object.values(last_record)[0]['score'])
-    show(document.getElementById('enter-record'));
+    show('enter-record');
 
   document.getElementById('location').innerHTML = await getLocation();
   document.getElementById("score").innerHTML = score;

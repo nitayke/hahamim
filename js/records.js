@@ -9,8 +9,13 @@ import {
   getAuth,
   signInAnonymously,
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+import {
+  showLoader,
+  hideLoader
+} from './utils/functions.js';
 
 async function getRecords() {
+  showLoader();
   const auth = getAuth();
   await signInAnonymously(auth);
 
@@ -23,8 +28,8 @@ async function getRecords() {
   snapshot.forEach(child => {
     const val = child.val();
     div.innerHTML = '<p>' + val['score'] + ' - ' + val['name'] + '</p>' + div.innerHTML;
-    // console.log(child.val());
   })
+  hideLoader();
 }
 
 getRecords();
