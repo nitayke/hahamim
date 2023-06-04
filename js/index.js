@@ -203,7 +203,7 @@ async function endGame()
 
   await get10th();
   if (last_record === null || score > Object.values(last_record)[0]['score'])
-    show('enter-record');
+    document.getElementById('enter-record').style = '';
 
   document.getElementById('location').innerHTML = await getLocation();
   document.getElementById("score").innerHTML = score;
