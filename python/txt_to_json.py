@@ -20,6 +20,7 @@ for count, i in enumerate(levels):
 scores = {}
 for i in range(180):
     scores[i] = 0
+scores['sum'] = 0
 
 j = dumps({"questions": questions, "scores": scores}, ensure_ascii=False)
 print(j)

@@ -132,6 +132,17 @@ function nextQuestion() {
   newQuestion(level);
 }
 
+async function getRecordsCount()
+{
+  const q = query(ref(getDatabase(), "records"));
+  const snapshot = await get(q);
+  let counter = 0;
+  snapshot.forEach(child => {
+    counter++;
+  });
+  return counter;
+}
+
 async function addRecord() {
   const name = document.getElementById('name').value;
   if (name === "")
@@ -141,7 +152,9 @@ async function addRecord() {
   }
   showLoader();
 
-  await remove(ref(getDatabase(), "records/" + Object.keys(last_record)[0]));
+  const counter = await getRecordsCount();
+  if (counter === 10)
+    await remove(ref(getDatabase(), "records/" + Object.keys(last_record)[0]));
 
   const recordsRef = ref(getDatabase(), "records");
   const newRef = push(recordsRef);
@@ -189,7 +202,7 @@ async function endGame()
   qRef = ref(getDatabase(), "scores");
 
   await get10th();
-  if (score > Object.values(last_record)[0]['score'])
+  if (last_record === null || score > Object.values(last_record)[0]['score'])
     show('enter-record');
 
   document.getElementById('location').innerHTML = await getLocation();
