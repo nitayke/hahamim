@@ -26,7 +26,10 @@ async function getData() {
   showLoader();
   const auth = getAuth();
   await signInAnonymously(auth);
-  const qRef = ref(getDatabase(), "waiting");
+  let qRef = ref(getDatabase(), 'scores/sum');
+  const p = await get(qRef);
+  document.getElementById('enters').innerHTML = 'מספר כניסות: ' + p.val();
+  qRef = ref(getDatabase(), "waiting");
   const q = query(qRef);
   const snapshot = await get(q);
   snapshot.forEach(child => {
