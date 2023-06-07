@@ -163,6 +163,11 @@ async function addRecord() {
     addError(document.querySelector(".error-place"), "אומרך להכניס שם");
     return;
   }
+  if (name.length > 15)
+  {
+    addError(document.querySelector(".error-place"), "השם שלך ארוך מדי");
+    return;
+  }
   showLoader();
 
   const counter = await getRecordsCount();
