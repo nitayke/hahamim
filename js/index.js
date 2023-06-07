@@ -20,6 +20,7 @@ import {
 import {
   showLoader,
   hideLoader,
+  addError,
   show,
   hide
 } from './utils/functions.js';
