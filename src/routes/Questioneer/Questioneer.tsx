@@ -4,27 +4,27 @@ import useTitle from "~/utils/hooks/useTitle";
 export default function Questioneer() {
   const { title, subtitle } = useTitle();
 
-  function handleCheckAnswer(rabbiType: RabbiType) {
+  const handleCheckAnswer = (rabbiType: RabbiType) => {
     throw new Error("Not implemented");
-  }
-  function handleStartGame() {
+  };
+  const handleStartGame = () => {
     throw new Error("Not implemented");
-  }
-  function handleGoToNextQuestion() {
+  };
+  const handleGoToNextQuestion = () => {
     throw new Error("Not implemented");
-  }
-  function handleAddRecord() {
+  };
+  const handleAddRecord = () => {
     throw new Error("Not implemented");
-  }
-  function handleRestartGame() {
+  };
+  const handleRestartGame = () => {
     throw new Error("Not implemented");
-  }
-  function handleNavigateToAddNewQuestion() {
+  };
+  const handleNavigateToAddNewQuestion = () => {
     throw new Error("Not implemented");
-  }
-  function handleNavigateToRecordsPage() {
+  };
+  const handleNavigateToRecordsPage = () => {
     throw new Error("Not implemented");
-  }
+  };
 
   return (
     <>

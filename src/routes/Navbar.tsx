@@ -1,23 +1,31 @@
+import { Link } from "react-router-dom";
 import useTitle from "~/utils/hooks/useTitle";
 
-export default function Navbar() {
+export function Header() {
   const { title, subtitle } = useTitle();
+
+  return (
+    <header>
+      <h1>{title}</h1>
+      <h2 className="nav-head">{subtitle}</h2>
+    </header>
+  );
+}
+
+export default function Navbar() {
   return (
     <nav className="nav">
       <div className="logo-container">
-        <a href="index.html">
+        <Link to="/">
           <img
             src="images/white.png"
             style={{ backgroundColor: "transparent" }}
             className="nav-logo-image"
             alt=""
           />
-        </a>
+        </Link>
       </div>
-      <header>
-        <h1>{title}</h1>
-        <h2 className="nav-head">{subtitle}</h2>
-      </header>
+      <Header />
       <div className="nav-container">
         <div className="nav-toggle" id="mobile-menu">
           <span className="bar"></span>
@@ -27,24 +35,28 @@ export default function Navbar() {
 
         <ul className="nav-menu" id="nav-menu">
           <li className="nav-items">
-            <a href="index.html" className="nav-links active-page">
-              <i className="fa fa-plane nav-icons"></i>שחק
-            </a>
+            <Link to="/" className="nav-links active-page">
+              <i className="fa fa-plane nav-icons"></i>
+              שחק
+            </Link>
           </li>
           <li className="nav-items">
-            <a href="add-question.html" className="nav-links">
-              <i className="fa fa-plus nav-icons"></i>הוסף שאלה
-            </a>
+            <Link to="/add-question" className="nav-links">
+              <i className="fa fa-plus nav-icons"></i>
+              הוסף שאלה
+            </Link>
           </li>
           <li className="nav-items">
-            <a href={"records.html"} className="nav-links">
-              <i className="fa fa-line-chart nav-icons"></i>שיאים
-            </a>
+            <Link to="/records" className="nav-links">
+              <i className="fa fa-line-chart nav-icons"></i>
+              שיאים
+            </Link>
           </li>
           <li className="nav-items">
-            <a href="about.html" className="nav-links">
-              <i className="fa fa-beer nav-icons"></i>אודות
-            </a>
+            <Link to="/about" className="nav-links">
+              <i className="fa fa-beer nav-icons"></i>
+              אודות
+            </Link>
           </li>
         </ul>
       </div>

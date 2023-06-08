@@ -1,21 +1,42 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Provider } from "jotai";
-
+import { Provider as JotaiProvider } from "jotai";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ErrorPage from "./error-page";
 import Layout from "./routes/Layout";
 import Questioneer from "./routes/Questioneer/Questioneer";
+import About from "./routes/About/About";
+import Admin from "./routes/Admin/Admin";
+import Records from "./routes/Records/Records";
+import AddQuestion from "./routes/AddQuestion/AddQuestion";
 
-export const router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
         element: <Questioneer />,
+      },
+      {
+        path: "/records",
+        element: <Records />,
+      },
+      {
+        path: "/add-question",
+        element: <AddQuestion />,
+      },
+      {
+        path: "/",
+        element: <Questioneer />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/admin",
+        element: <Admin />,
       },
     ],
   },
@@ -23,8 +44,8 @@ export const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <Provider>
+    <JotaiProvider>
       <RouterProvider router={router} />
-    </Provider>
+    </JotaiProvider>
   </React.StrictMode>
 );

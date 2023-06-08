@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import "./App.css";
 import Navbar from "./Navbar";
 import Loader from "~/Componenets/Loader";
+import "./App.scss";
 
 export default function Layout() {
   return (
