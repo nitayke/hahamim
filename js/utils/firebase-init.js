@@ -14,6 +14,6 @@ const firebaseConfig = {
   messagingSenderId: "205614945391",
   appId: "1:205614945391:web:2c8f2f1d75ff625db6e99a",
   measurementId: "G-LZHC0H8EEQ",
-  databaseURL: "https://hahamim-d7a18-default-rtdb.europe-west1.firebasedatabase.app"
+  databaseURL: "https://hahamim-d7a18-default-rtdb.europe-west1.firebasedatabase.app",
 };
 getAnalytics(initializeApp(firebaseConfig));

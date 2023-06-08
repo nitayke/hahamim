@@ -298,7 +298,6 @@ footer {
   font-size: 0.8rem;
 }
 
-
 .add-question-form {
   display: flex;
   flex-direction: column;
@@ -454,7 +453,6 @@ optgroup option {
 .smaller {
   font-size: 0.8rem;
 }
-
 
 .make-it-green {
   border: 2px solid #00c200;
