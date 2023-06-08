@@ -1,3 +1,5 @@
+import { isAdmin, logout } from "./firebase-init.js";
+
 // eyal's js
 const mobileMenu = document.querySelector("#mobile-menu");
 const menuLinks = document.querySelector(".nav-menu");
@@ -34,9 +36,28 @@ window.onload = function checkActivepage() {
   } else {
     changeActivePage(0);
   }
+  setTimeout(() => addLogoutButtonForAdmin(), 1000);
 };
 
 function changeActivePage(place) {
   navLinks.forEach((nl) => nl.classList.remove("active-page"));
   navLinks[place].classList.add("active-page");
+}
+
+export async function addLogoutButtonForAdmin() {
+  if (!(window.location.href.includes("admin") && (await isAdmin()))) return;
+  if (document.querySelector("#logout-button")) return; // button already exists
+
+  const navMenu = document.querySelector("#nav-menu");
+  const logoutButton = document.createElement("li");
+  logoutButton.classList.add("nav-item");
+  logoutButton.style = `
+  align-self: center;
+  justify-self: center;
+`;
+  // add id to elem
+  logoutButton.id = "logout-button";
+  window.logout = logout;
+  logoutButton.innerHTML = `<button class="btn" onclick="logout()">התנתק</button>`;
+  navMenu.appendChild(logoutButton);
 }
