@@ -15,7 +15,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 import { showLoader, hideLoader } from "./utils/functions.js";
 import { sleep } from "./utils/helpers.js";
-import { isAdmin } from "./utils/firebase-init.js";
+import { isAdmin } from "./utils/firebase-utils.js";
 import { addLogoutButtonForAdmin } from "./utils/navbar.js";
 
 var questions = [];

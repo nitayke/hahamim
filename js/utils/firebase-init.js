@@ -1,11 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js";
-import {
-  onAuthStateChanged,
-  getAuth,
-} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-import { sleep } from "./helpers.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -21,31 +16,4 @@ const firebaseConfig = {
   measurementId: "G-SBW22SF8ZE",
   databaseURL: "https://shvushon-hahamim-default-rtdb.europe-west1.firebasedatabase.app",
 };
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-const auth = getAuth();
-
-window.currentUser = auth.currentUser;
-
-onAuthStateChanged(auth, (user) => {
-  /*
-    will run every time the user logs in or logs out,
-    or when the page loads - keeping the state of previous login
-   */
-  window.currentUser = user;
-});
-
-export async function isAdmin() {
-  await sleep(0.2); // wait for next loop cycle, so currentUser will be updated from the onAuthStateChanged
-  return !!(window.currentUser && !window.currentUser.isAnonymous);
-}
-
-export function logout() {
-  const auth = getAuth();
-  auth.signOut();
-  window.currentUser = null;
-  window.location.href = "index.html";
-}
+getAnalytics(initializeApp(firebaseConfig));

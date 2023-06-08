@@ -66,10 +66,12 @@
         </ul>
       </div>
     </nav>
+    <script type="module" src="js/utils/firebase-init.js"></script>
 
     {{ content }}
 
-    <script type="module" src="js/utils/navbar.js"></script>
+    <script type="module" defer src="js/utils/navbar.js"></script>
+
     <div class="loader-container">
       <div class="loader" id="loader" hidden></div>
     </div>

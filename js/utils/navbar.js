@@ -1,4 +1,4 @@
-import { isAdmin, logout } from "./firebase-init.js";
+import { isAdmin, logout } from "./firebase-utils.js";
 
 // eyal's js
 const mobileMenu = document.querySelector("#mobile-menu");
