@@ -16,7 +16,4 @@ const firebaseConfig = {
   measurementId: "G-SBW22SF8ZE",
   databaseURL: "https://shvushon-hahamim-default-rtdb.europe-west1.firebasedatabase.app",
 };
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+getAnalytics(initializeApp(firebaseConfig));

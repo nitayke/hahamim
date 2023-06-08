@@ -14,6 +14,9 @@ import {
   signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 import { showLoader, hideLoader } from "./utils/functions.js";
+import { sleep } from "./utils/helpers.js";
+import { isAdmin } from "./utils/firebase-utils.js";
+import { addLogoutButtonForAdmin } from "./utils/navbar.js";
 
 var questions = [];
 
@@ -29,7 +32,30 @@ async function loginAsAdmin() {
   }
   const auth = getAuth();
   userCredential = await signInWithEmailAndPassword(auth, email, password);
-  return userCredential;
+  window.currentUser = await userCredential.user;
+  return window.currentUser;
+}
+
+async function AssureLoginAsAdmin() {
+  if (await isAdmin()) return;
+  let successLogin = false;
+  let tries = 3;
+  while (!successLogin && tries-- !== 0) {
+    try {
+      userCredential = await loginAsAdmin();
+      successLogin = !!userCredential;
+    } catch (error) {
+      console.warn(error);
+      alert("שגיאה בהתחברות או משתמש וסיסמה שגויים");
+    }
+  }
+  if (!successLogin || tries === 0) {
+    alert("לא הצלחת להתחבר כאדמין, נסה שוב מאוחר יותר");
+    // redirect to home page
+    window.location.href = "index.html";
+    return;
+  }
+  await addLogoutButtonForAdmin();
 }
 
 async function getData() {
@@ -82,20 +108,10 @@ async function addQuestionToDB(param) {
   updateHtml();
 }
 async function initAdminPage() {
-  let successLogin = false;
-  let tries = 3;
-  while (!successLogin && tries-- > 0) {
-    try {
-      successLogin = !!(await loginAsAdmin());
-    } catch (error) {
-      alert("שגיאה בהתחברות או משתמש וסיסמה שגויים");
-    }
-  }
-  if (tries === 0) {
-    alert("לא הצלחת להתחבר כאדמין, נסה שוב מאוחר יותר");
-    window.location.href = "index.html";
-    return;
-  }
+  showLoader();
+  await sleep(1000); // wait for admin to update from onAuthStateChanged
+  hideLoader();
+  await AssureLoginAsAdmin();
   await getData();
   updateHtml();
 }
