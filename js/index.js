@@ -17,14 +17,8 @@ import {
   getAuth,
   signInAnonymously,
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-import {
-  showLoader,
-  hideLoader,
-  addError,
-  show,
-  hide
-} from './utils/functions.js';
-
+import { showLoader, hideLoader, show, hide } from "./utils/functions.js";
+import { addError } from "./utils/functions.js";
 
 var firstTime;
 var timeDistance;
@@ -42,8 +36,8 @@ let level = 0;
 let indexes_questions;
 let qRef;
 const questions_in_level = 6;
-const types = ['easy', 'medium', 'hard'];
-const hebrew_types = ['קל', 'בינוני', 'כבד'];
+const types = ["easy", "medium", "hard"];
+const hebrew_types = ["קל", "בינוני", "כבד"];
 const num_of_questions = questions_in_level * types.length;
 const MAX_SCORE_PER_QUESTION = 100;
 
@@ -52,14 +46,14 @@ function timer() {
   timeDistance = now - firstTime;
   var seconds = Math.floor(timeDistance / 1000);
   var milliseconds = Math.floor((timeDistance % 1000) / 10);
-  time = seconds.toFixed() + ":" +  String(milliseconds).padStart(2, '0');
+  time = seconds.toFixed() + ":" + String(milliseconds).padStart(2, "0");
   document.getElementById("time").innerHTML = time;
 }
 
 async function restartGame() {
   showLoader();
-  hide('end-game-container');
-  show('game-container');
+  hide("end-game-container");
+  show("game-container");
   score = 0;
   questionIndex = 0;
   level = 0;
@@ -67,8 +61,8 @@ async function restartGame() {
 }
 
 async function startGame() {
-  hide('start-container');
-  show('game-container');
+  hide("start-container");
+  show("game-container");
   showLoader();
   const auth = getAuth();
   await signInAnonymously(auth);
@@ -81,12 +75,12 @@ async function startLevel() {
   const count = snapshot.val();
   questionIndex = 0;
   indexes_questions = Array.from(Array(count).keys());
-  document.getElementById('level').innerHTML = 'רמת קושי: ' + hebrew_types[level];
+  document.getElementById("level").innerHTML = "רמת קושי: " + hebrew_types[level];
   newQuestion();
 }
 
 async function newQuestion() {
-  if (questionIndex < questions_in_level) {  
+  if (questionIndex < questions_in_level) {
     await handleOneQuestion();
     firstTime = new Date().getTime();
     interval = setInterval(timer, 51);
@@ -94,8 +88,7 @@ async function newQuestion() {
   } else if (level < 2) {
     level++;
     startLevel();
-  }
-  else {
+  } else {
     endGame();
   }
 }
@@ -111,7 +104,8 @@ async function handleOneQuestion() {
   const question1 = await getQuestion();
   question.innerHTML = question1.name;
   rightAnswer = question1.type;
-  document.getElementById('question-count').innerHTML = 'שאלה ' + (1 + questionIndex + level * questions_in_level) + ' מתוך ' + num_of_questions;
+  document.getElementById("question-count").innerHTML =
+    "שאלה " + (1 + questionIndex + level * questions_in_level) + " מתוך " + num_of_questions;
   hideLoader();
 }
 
@@ -122,109 +116,106 @@ function checkAnswer(ansNum) {
   if (chosenAnswer == rightAnswer) {
     answers[chosenAnswer].classList.add("make-it-green");
     document.querySelector(".after-answer-text").innerHTML = "יפה מאוד";
-    score += Math.floor(MAX_SCORE_PER_QUESTION * Math.pow(Math.E, -0.15*(timeDistance/1000)));
+    score += Math.floor(MAX_SCORE_PER_QUESTION * Math.pow(Math.E, -0.15 * (timeDistance / 1000)));
   } else {
     answers[chosenAnswer].classList.add("make-it-red");
     answers[rightAnswer].classList.add("make-it-green");
     document.querySelector(".after-answer-text").innerHTML = "חבל מאוד";
-    show('google');
-    document.getElementById('google').href = 'https://www.google.com/search?q=' + question.innerHTML;
+    show("google");
+    document.getElementById("google").href =
+      "https://www.google.com/search?q=" + question.innerHTML;
   }
   document.getElementById("smaller-score").innerHTML = "ניקוד: " + score;
-  show('game-footer');
+  show("game-footer");
 }
 
 function nextQuestion() {
   showLoader();
-  hide('google');
+  hide("google");
   answers.forEach((ans) => ans.classList.remove("disable-pointer-events"));
   if (document.querySelector(".make-it-green")) {
     answers[chosenAnswer].classList.remove("make-it-red");
     answers[rightAnswer].classList.remove("make-it-green");
   }
-  hide('game-footer');
+  hide("game-footer");
   newQuestion(level);
 }
 
-async function getRecordsCount()
-{
+async function getRecordsCount() {
   const q = query(ref(getDatabase(), "records"));
   const snapshot = await get(q);
   let counter = 0;
-  snapshot.forEach(child => {
+  snapshot.forEach((child) => {
     counter++;
   });
   return counter;
 }
 
 async function addRecord() {
-  const name = document.getElementById('name').value;
-  if (name === "")
-  {
+  const name = document.getElementById("name").value;
+  if (name === "") {
     addError(document.querySelector(".error-place"), "אומרך להכניס שם");
     return;
   }
-  if (name.length > 15)
-  {
+  if (name.length > 15) {
     addError(document.querySelector(".error-place"), "השם שלך ארוך מדי");
     return;
   }
   showLoader();
 
   const counter = await getRecordsCount();
-  if (counter === 10)
-    await remove(ref(getDatabase(), "records/" + Object.keys(last_record)[0]));
+  if (counter === 10) await remove(ref(getDatabase(), "records/" + Object.keys(last_record)[0]));
 
   const recordsRef = ref(getDatabase(), "records");
   const newRef = push(recordsRef);
 
   await set(newRef, {
     name: name,
-    score: score
+    score: score,
   });
   window.location.href = "index.html";
 }
 
-async function get10th()
-{
+async function get10th() {
   const qRef = ref(getDatabase(), "records");
-  const lowest = query(qRef, orderByChild('score'), limitToFirst(1));
+  const lowest = query(qRef, orderByChild("score"), limitToFirst(1));
   const snapshot = await get(lowest);
   last_record = snapshot.val();
 }
 
-async function getLocation()
-{
+async function getLocation() {
   const score_level = Math.floor(score / 10);
-  var snapshot = await get(child(qRef, 'sum'));
+  var snapshot = await get(child(qRef, "sum"));
   var all_sum = snapshot.val();
-  const higher_scores = query(qRef, limitToLast((MAX_SCORE_PER_QUESTION * num_of_questions) / 10 + 1 - score_level));
+  const higher_scores = query(
+    qRef,
+    limitToLast((MAX_SCORE_PER_QUESTION * num_of_questions) / 10 + 1 - score_level)
+  );
   snapshot = await get(higher_scores);
   var sum = 1;
-  snapshot.forEach(child => {
+  snapshot.forEach((child) => {
     sum += child.val();
   });
   sum -= all_sum; // because part of the query is the sum of all
   all_sum++;
   const updates = {};
   updates[score_level] = increment(1);
-  updates['sum'] = increment(1);
+  updates["sum"] = increment(1);
   update(qRef, updates);
-  return sum + '/' + all_sum;
+  return sum + "/" + all_sum;
 }
 
-async function endGame()
-{
+async function endGame() {
   showLoader();
-  hide('game-container');
-  show('end-game-container');
+  hide("game-container");
+  show("end-game-container");
   qRef = ref(getDatabase(), "scores");
 
   await get10th();
-  if (last_record === null || score > Object.values(last_record)[0]['score'])
-    document.getElementById('enter-record').style = '';
+  if (last_record === null || score > Object.values(last_record)[0]["score"])
+    document.getElementById("enter-record").style = "";
 
-  document.getElementById('location').innerHTML = await getLocation();
+  document.getElementById("location").innerHTML = await getLocation();
   document.getElementById("score").innerHTML = score;
   hideLoader();
 }

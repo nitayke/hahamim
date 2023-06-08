@@ -1,72 +1,103 @@
 import {
-    getDatabase,
-    ref,
-    query,
-    set,
-    increment,
-    child,
-    remove,
-    update,
-    get,
+  getDatabase,
+  ref,
+  query,
+  set,
+  increment,
+  child,
+  remove,
+  update,
+  get,
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 import {
-    getAuth,
-    signInAnonymously,
+  getAuth,
+  signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-import {
-  showLoader,
-  hideLoader,
-} from './utils/functions.js';
+import { showLoader, hideLoader } from "./utils/functions.js";
 
-var questions = {};
-var index = 0;
-const levels = ['easy', 'medium', 'hard'];
+var questions = [];
+
+let userCredential;
+const levels = ["easy", "medium", "hard"];
+
+async function loginAsAdmin() {
+  let email = prompt("Enter admin email");
+  let password = prompt("Enter admin password");
+  if (!email || !password) {
+    alert("הכנס פרטי כניסה לאדמין");
+    return;
+  }
+  const auth = getAuth();
+  userCredential = await signInWithEmailAndPassword(auth, email, password);
+  return userCredential;
+}
 
 async function getData() {
   showLoader();
-  const auth = getAuth();
-  await signInAnonymously(auth);
-  let qRef = ref(getDatabase(), 'scores/sum');
+  let qRef = ref(getDatabase(), "scores/sum");
   const p = await get(qRef);
-  document.getElementById('enters').innerHTML = 'מספר כניסות: ' + p.val();
+  document.getElementById("enters").innerHTML = "מספר כניסות: " + p.val();
   qRef = ref(getDatabase(), "waiting");
   const q = query(qRef);
   const snapshot = await get(q);
-  snapshot.forEach(child => {
-    questions[child.key] = child.val();
+  snapshot.forEach((child) => {
+    questions.push({ key: child.key, q: child.val() });
   });
   hideLoader();
 }
 
 function updateHtml() {
-  const q = Object.values(questions)[index];
-  document.getElementById('q').innerHTML = "שאלה: " + q.q;
-  document.getElementById('answer').innerHTML = "תשובה: " + q.answer;
-  document.getElementById('diff').innerHTML = "דרגה: " + q.level;
-  document.getElementById('google').href = 'https://google.com/search?q=' + q.q;
+  if (questions.length === 0) {
+    document.getElementById("q").innerHTML = "";
+    document.getElementById("answer").innerHTML = "";
+    document.getElementById("diff").innerHTML = "";
+    document.getElementById("google").href = "";
+    return;
+  }
+  const { q } = questions[0];
+  document.getElementById("q").innerHTML = "שאלה: " + q.q;
+  document.getElementById("answer").innerHTML = "תשובה: " + q.answer;
+  document.getElementById("diff").innerHTML = "דרגה: " + q.level;
+  document.getElementById("google").href = "https://google.com/search?q=" + q.q;
 }
 
-async function c(param) {
-  let q = Object.values(questions)[index];
-  if (param !== 2) {
-    await remove(ref(getDatabase(), "waiting/" + Object.keys(questions)[index]));
+async function addQuestionToDB(param) {
+  if (questions.length === 0) {
+    return;
   }
-  if (param === 0) { // approve
-    const qRef = ref(getDatabase(), 'questions');
-    const snapshot = await get(child(qRef, levels[q.level] + '/count'));
-    console.log(snapshot.val());
-    await set(child(qRef, levels[q.level] + '/' +
-      snapshot.val()), {'name': q.q, 'type': q.answer});
+  let { key, q } = questions.shift(); // removing the first element
+  if (param !== 2) {
+    await remove(ref(getDatabase(), "waiting/" + key));
+  }
+  if (param === 0) {
+    // approve
+    const qRef = ref(getDatabase(), "questions");
+    const snapshot = await get(child(qRef, levels[q.level] + "/count"));
+    await set(child(qRef, levels[q.level] + "/" + snapshot.val()), { name: q.q, type: q.answer });
     let updates = {};
-    updates['count'] = increment(1);
+    updates["count"] = increment(1);
     update(child(qRef, levels[q.level]), updates);
   }
-  index++;
+
   updateHtml();
 }
-
-await getData();
-
-updateHtml();
-
-window.c = c;
+async function initAdminPage() {
+  let successLogin = false;
+  let tries = 3;
+  while (!successLogin && tries-- > 0) {
+    try {
+      successLogin = !!(await loginAsAdmin());
+    } catch (error) {
+      alert("שגיאה בהתחברות או משתמש וסיסמה שגויים");
+    }
+  }
+  if (tries === 0) {
+    alert("לא הצלחת להתחבר כאדמין, נסה שוב מאוחר יותר");
+    window.location.href = "index.html";
+    return;
+  }
+  await getData();
+  updateHtml();
+}
+initAdminPage();
+window.addQuestionToDB = addQuestionToDB;
