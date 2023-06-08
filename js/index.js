@@ -17,7 +17,8 @@ import {
   getAuth,
   signInAnonymously,
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-import { showLoader, hideLoader, addError, show, hide } from "./utils/functions.js";
+import { showLoader, hideLoader, show, hide } from "./utils/functions.js";
+import { addError } from "./utils/functions.js";
 
 var firstTime;
 var timeDistance;

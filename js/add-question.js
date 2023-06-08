@@ -8,6 +8,7 @@ import {
   getAuth,
   signInAnonymously,
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+import { addError } from "./utils/functions.js";
 
 let errorPlaces = document.querySelectorAll(".error-place");
 document.getElementById("add-question-form").addEventListener("submit", function (e) {
