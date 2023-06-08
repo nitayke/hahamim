@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import useTitle from "~/utils/hooks/useTitle";
+import useTitle from "~/hooks/useTitle";
 
 export function Header() {
   const { title, subtitle } = useTitle();

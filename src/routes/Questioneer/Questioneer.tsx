@@ -1,5 +1,5 @@
 import { RabbiType } from "~/types/types";
-import useTitle from "~/utils/hooks/useTitle";
+import useTitle from "~/hooks/useTitle";
 
 export default function Questioneer() {
   const { title, subtitle } = useTitle();

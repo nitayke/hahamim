@@ -1,5 +1,3 @@
-import "https://cdn.jsdelivr.net/npm/chart.js";
-
 export default function Records() {
   return (
     <div>

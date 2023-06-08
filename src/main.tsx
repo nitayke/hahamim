@@ -8,6 +8,7 @@ import About from "./routes/About/About";
 import Admin from "./routes/Admin/Admin";
 import Records from "./routes/Records/Records";
 import AddQuestion from "./routes/AddQuestion/AddQuestion";
+import { MantineProvider } from "@mantine/core";
 
 const router = createBrowserRouter([
   {
@@ -45,7 +46,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <JotaiProvider>
-      <RouterProvider router={router} />
+      <MantineProvider>
+        <RouterProvider router={router} />
+      </MantineProvider>
     </JotaiProvider>
   </React.StrictMode>
 );

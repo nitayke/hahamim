@@ -10,6 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@mantine/core": "^6.0.13",
+    "@mantine/form": "^6.0.13",
+    "@mantine/hooks": "^6.0.13",
+    "firebase": "^9.22.2",
     "font-awesome": "^4.7.0",
     "jotai": "^2.1.1",
     "localforage": "^1.10.0",
