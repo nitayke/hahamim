@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider as JotaiProvider } from "jotai";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import Layout from "./routes/Layout";
 import Questioneer from "./routes/Questioneer/Questioneer";
 import About from "./routes/About/About";
@@ -43,11 +45,15 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <JotaiProvider>
       <MantineProvider>
-        <RouterProvider router={router} />
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
       </MantineProvider>
     </JotaiProvider>
   </React.StrictMode>
