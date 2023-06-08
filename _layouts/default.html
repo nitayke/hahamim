@@ -44,7 +44,7 @@
           <span class="bar"></span>
         </div>
 
-        <ul class="nav-menu">
+        <ul class="nav-menu" id="nav-menu">
           <li class="nav-items">
             <a href="index.html" class="nav-links active-page">
               <i class="fa fa-plane nav-icons"></i>שחק</a
@@ -66,10 +66,12 @@
         </ul>
       </div>
     </nav>
+    <script type="module" src="js/utils/firebase-init.js"></script>
 
     {{ content }}
 
-    <script src="js/utils/navbar.js"></script>
+    <script type="module" defer src="js/utils/navbar.js"></script>
+
     <div class="loader-container">
       <div class="loader" id="loader" hidden></div>
     </div>
