@@ -13,7 +13,7 @@ export default defineConfig({
     // This is the default value, and will add all files with node_modules
     // in their paths to the ignore list.
     sourcemapIgnoreList(sourcePath: string, sourcemapPath) {
-      return sourcePath.includes('node_modules') || sourcePath.includes('original-website')
-    }
-  }
+      return sourcePath.includes("node_modules") || sourcePath.includes("original-website");
+    },
+  },
 });
