@@ -50,4 +50,9 @@ new Chart(document.getElementById("line-chart"), {
   },
 });
 
+
+qRef = ref(getDatabase(), "scores/sum");
+const p = await get(qRef);
+document.getElementById("enters").innerHTML = "מספר כניסות: " + p.val();
+
 hideLoader();
