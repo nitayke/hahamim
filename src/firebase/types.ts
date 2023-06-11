@@ -6,20 +6,17 @@ export const DBKeys = {
 
 export interface DB {
   questions: Questions;
-  records: { [key: string]: Record };
+  records: { [key: string]: RecordScore };
   scores: {
     scores: { [key: string]: number };
     sum: number;
   };
 }
+export const Difficulties = ["easy", "medium", "hard"] as const;
+export type IDifficulty = (typeof Difficulties)[number];
+export type Questions = Record<IDifficulty, DifficultyTable>;
 
-export interface Questions {
-  easy: Difficulty;
-  hard: Difficulty;
-  medium: Difficulty;
-}
-
-export interface Difficulty {
+export interface DifficultyTable {
   [key: string]: RabbiInfo;
 }
 
@@ -28,7 +25,7 @@ export interface RabbiInfo {
   type: number;
 }
 
-export interface Record {
+export interface RecordScore {
   name: string;
   score: number;
 }
