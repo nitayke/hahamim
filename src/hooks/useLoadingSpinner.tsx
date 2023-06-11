@@ -1,6 +1,6 @@
 import { useDisclosure } from "@mantine/hooks";
-import { Modal } from "@mantine/core";
 import { Portal } from "@mantine/core";
+import Loader from "~/Componenets/Loader/Loader";
 
 export default function useLoadingSpinner() {
   const [opened, { open, close, toggle }] = useDisclosure(false);
@@ -9,10 +9,7 @@ export default function useLoadingSpinner() {
     <>
       {opened && (
         <Portal>
-          <div className="loader-container">
-            <div className="loader" id="loader" hidden></div>
-          </div>
-          <div className="dark-screen" id="dark-screen" hidden></div>
+          <Loader />
         </Portal>
       )}
     </>

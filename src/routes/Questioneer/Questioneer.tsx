@@ -29,7 +29,7 @@ export default function Questioneer() {
   return (
     <>
       <div className="game-page-container">
-        <div id="start-container">
+        <div id="start-container" className="m-12 text-center">
           <h2>
             {title} - {subtitle}
           </h2>
@@ -78,7 +78,7 @@ export default function Questioneer() {
             </div>
           </div>
         </div>
-        <div className="end-game-container" id="end-game-container" hidden>
+        <div className="mt-12 w-3/5 text-center" id="end-game-container" hidden>
           <p>
             הניקוד שלך הוא:
             <span id="score"></span>

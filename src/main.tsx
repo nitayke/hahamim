@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "./index.scss";
 import { Provider as JotaiProvider } from "jotai";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import Layout from "./routes/Layout";
+import Layout from "./routes/Layout/Layout";
 import Questioneer from "./routes/Questioneer/Questioneer";
 import About from "./routes/About/About";
 import Admin from "./routes/Admin/Admin";

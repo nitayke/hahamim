@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <div className="about-container">
+    <div className="about-container m-8">
       <h3>אודות:</h3>
       <p>
         פעם הכנתי טריוויה על תוכנית טלוויזיה ואלפי ילדים שיחקו בה, וידעו את התשובות למאות שאלות
@@ -20,7 +20,7 @@ export default function About() {
       <h3>מנכ"ל העמותה:</h3>
       <p>אורי בובליל</p>
       <h3>לעוד מיזמים מבית שבושון:</h3>
-      <div>
+      <div className="flex flex-col">
         <a href="https://shvushon.github.io/shvushon">שבושון</a>
         <a href="https://shvushon.github.io/shvushon2">שבושון 2</a>
         <a href="https://shvushon.github.io/shlichim">שליחון</a>

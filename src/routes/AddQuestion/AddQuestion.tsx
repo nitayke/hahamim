@@ -1,4 +1,7 @@
+import useIsMobile from "~/hooks/useIsMobile";
+
 export default function AddQuestion() {
+  const isMobile = useIsMobile();
   // todo use useHook with validation
   const handleHideMobileMenu = () => {
     throw new Error("Not implemented");
@@ -6,12 +9,21 @@ export default function AddQuestion() {
   const handleRemoveValidationFromFormField = (fieldNumber: number) => {
     throw new Error("Not implemented");
   };
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    throw new Error("Not implemented");
+  };
   return (
     <div className="all-site" onClick={handleHideMobileMenu}>
-      <form className="add-question-form" id="add-question-form" autoComplete="off">
+      <form
+        className="flex flex-col items-center justify-start p-4"
+        id="add-question-form"
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
         <h2>הוסף שאלה</h2>
-        <div className="main-form-container">
-          <div className="box">
+        <div className={`flex items-center justify-around w-4/5 ${isMobile ? "flex-col" : ""}`}>
+          <div className={`w-2/5 flex flex-col items-start ${isMobile ? "w-full" : ""}`}>
             <label>השאלה</label>
             <input
               id="q"
@@ -22,11 +34,12 @@ export default function AddQuestion() {
             <div className="error-place"></div>
             <label>מה התשובה?</label>
             <select
+              defaultValue={-1}
               className="text-box"
               id="answer"
               onChange={() => handleRemoveValidationFromFormField(1)}
             >
-              <option value="" selected disabled hidden>
+              <option value="" disabled hidden>
                 בחר תשובה
               </option>
               <option value="0">תנא</option>
@@ -37,11 +50,12 @@ export default function AddQuestion() {
             <div className="error-place"></div>
             <label>דרגת קושי</label>
             <select
+              defaultValue={-1}
               className="text-box"
               id="level"
               onChange={() => handleRemoveValidationFromFormField(2)}
             >
-              <option value="" selected disabled hidden>
+              <option value="" disabled hidden>
                 בחר דרגת קושי
               </option>
               <option value="0">קל</option>
