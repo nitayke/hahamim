@@ -32,3 +32,9 @@ export interface Record {
   name: string;
   score: number;
 }
+
+export type AddQuestion = {
+  question: string;
+  answer: string;
+  level: string;
+};
