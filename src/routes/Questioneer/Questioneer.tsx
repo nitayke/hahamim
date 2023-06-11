@@ -1,10 +1,10 @@
-import { RabbiType } from "~/types/types";
+import { IRabbiType } from "~/types/types";
 import useTitle from "~/hooks/useTitle";
 
 export default function Questioneer() {
   const { title, subtitle } = useTitle();
 
-  const handleCheckAnswer = (rabbiType: RabbiType) => {
+  const handleCheckAnswer = (rabbiType: IRabbiType) => {
     throw new Error("Not implemented");
   };
   const handleStartGame = () => {
