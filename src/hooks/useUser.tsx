@@ -2,7 +2,7 @@ import { atom, useAtom } from "jotai";
 import { useEffect } from "react";
 import { auth } from "~/firebase/config";
 import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
-import useLoadingSpinner from "./useLoadingSpinner";
+import { useGlobalLoadingSpinner } from "./useLoadingSpinner";
 
 const userAtom = atom(auth.currentUser);
 
@@ -22,7 +22,7 @@ export default function useUser({ signInAnonymously = false }: useUserProps = {}
 
 export function useSignInAnnymously() {
   const { user } = useUser();
-  const { open, close } = useLoadingSpinner();
+  const { open, close } = useGlobalLoadingSpinner();
 
   useEffect(() => {
     const signIn = async () => {

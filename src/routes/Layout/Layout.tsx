@@ -3,17 +3,17 @@ import "../styles/App.scss";
 import "../styles/Mobile.scss";
 import "./Layout.scss";
 import Navbar from "./Navbar";
-import useLoadingSpinner from "~/hooks/useLoadingSpinner";
+import { useGlobalLoadingSpinner } from "~/hooks/useLoadingSpinner";
 import Footer from "./Footer";
 
 export default function Layout() {
-  const { LoadingSpinnerModal } = useLoadingSpinner();
+  const { LoadingSpinnerModal } = useGlobalLoadingSpinner();
   return (
     <>
       <Navbar />
       <Outlet />
-      <LoadingSpinnerModal />
       <Footer />
+      <LoadingSpinnerModal />
     </>
   );
 }
