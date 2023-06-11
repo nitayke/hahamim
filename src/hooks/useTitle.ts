@@ -1,8 +1,8 @@
 import { atom, useAtom } from "jotai";
 import { useEffect } from "react";
 
-const titleAtom = atom("שאלון חכמים");
-const subtitleAtom = atom("שאלון חכמים");
+const titleAtom = atom("חזלון");
+const subtitleAtom = atom("שאלון על חכמי ישראל");
 
 export default function useTitle() {
   const [title, setTitle] = useAtom(titleAtom);

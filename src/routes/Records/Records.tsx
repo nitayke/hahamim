@@ -19,7 +19,7 @@ export default function Records() {
 
   return (
     <div>
-      <div className="game-page-container">
+      <div className="game-page-container mt-6">
         <h2>רשימת השיאים</h2>
         <div id="records">
           {isRecordsLoading && <p>טוען...</p>}
@@ -28,7 +28,7 @@ export default function Records() {
           ))}
         </div>
       </div>
-      <div className="game-page-container">
+      <div className="game-page-container mt-6">
         <h2>סטטיסטיקות</h2>
         <h3>(הניקוד מעוגל לעשרות)</h3>
         {isScoresLoading && <p>טוען...</p>}
