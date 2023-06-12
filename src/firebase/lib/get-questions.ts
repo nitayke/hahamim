@@ -20,4 +20,5 @@ export async function* getQuestionsByDifficulty({
     const snapshot = await get(child(questionsRef, id.toString()));
     yield snapshot.val() as RabbiInfo;
   }
+  return null;
 }
