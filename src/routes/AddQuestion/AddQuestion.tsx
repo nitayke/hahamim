@@ -22,7 +22,6 @@ export default function AddQuestion() {
     register,
     handleSubmit,
     formState: { errors, isValid, dirtyFields },
-    setFocus,
     trigger,
     reset,
   } = useForm<typeof FormFields>({
