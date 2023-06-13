@@ -1,23 +1,25 @@
 import { atom, useAtom } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { auth } from "~/firebase/config";
 import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
 import { useGlobalLoadingSpinner } from "./useLoadingSpinner";
 
 const userAtom = atom(auth.currentUser);
 
-type useUserProps = {
-  signInAnonymously?: boolean;
-};
-export default function useUser({ signInAnonymously = false }: useUserProps = {}) {
+export default function useUser() {
   const [user, setUser] = useAtom(userAtom);
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
+  const isAdmin = user && !user?.isAnonymous;
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setUser(user);
     });
+    setTimeout(() => {
+      setIsLoadingUser(false);
+    }, 400);
   }, []);
-  return { user };
+  return { user, isAdmin, isLoadingUser };
 }
 
 export function useSignInAnnymously() {
