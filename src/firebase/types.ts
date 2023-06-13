@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export const DBKeys = {
   questions: "questions",
   records: "records",
@@ -17,16 +19,21 @@ export type IDifficulty = (typeof Difficulties)[number];
 export type Questions = Record<IDifficulty, DifficultyTable>;
 
 export interface DifficultyTable {
-  [key: string]: RabbiInfo;
+  [key: string]: IRabbiInfo;
 }
+export const RabbiTypeKeys = ["תנא", "אמורא", "ראשון", "אחרון"] as const;
+export type IRabbiType = (typeof RabbiTypeKeys)[number];
 
-export interface RabbiInfo {
-  name: string;
-  type: number;
-}
-export interface RabbiInfoWithDifficulty extends RabbiInfo {
-  difficultyLevel: IDifficulty;
-}
+export const RabbiInfo = z.object({
+  name: z.string(),
+  type: z.enum(RabbiTypeKeys),
+});
+export type IRabbiInfo = z.infer<typeof RabbiInfo>;
+
+export const RabbiInfoWithDifficulty = RabbiInfo.extend({
+  difficultyLevel: z.enum(Difficulties),
+});
+export type IRabbiInfoWithDifficulty = z.infer<typeof RabbiInfoWithDifficulty>;
 
 export interface RecordScore {
   name: string;

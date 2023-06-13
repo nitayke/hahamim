@@ -1,5 +1,5 @@
-import { child, get, getDatabase, ref } from "firebase/database";
-import { IDifficulty, RabbiInfo, RabbiInfoWithDifficulty } from "../types";
+import { IDifficulty, RabbiInfoWithDifficulty } from "~/firebase/types";
+import { get, getDatabase, ref } from "firebase/database";
 import { getRandomIntegers } from "~/utils/helpers";
 
 export async function* getQuestionsByDifficulty({
@@ -10,15 +10,15 @@ export async function* getQuestionsByDifficulty({
   numberOfQuestions: number;
 }) {
   const questionsRef = ref(getDatabase(), `questions/${difficultyLevel}`);
-  const countSnapshot = await get(child(questionsRef, "count"));
-  const countQuestionsInDB = countSnapshot.val();
-  const qIds = getRandomIntegers(1, countQuestionsInDB, {
+  const snap = await get(questionsRef);
+  const countQuestionsInDB = snap.size;
+  const randomIndexesUpToMaxCount = getRandomIntegers(0, countQuestionsInDB - 1, {
     unique: true,
     count: numberOfQuestions,
   });
-  for (const id of qIds) {
-    const snapshot = await get(child(questionsRef, id.toString()));
-    const qInfo = { ...(snapshot.val() as RabbiInfo), difficultyLevel } as RabbiInfoWithDifficulty;
+  for (const index of randomIndexesUpToMaxCount) {
+    const question = snap.child(index.toString()).val();
+    const qInfo = RabbiInfoWithDifficulty.parse({ ...question, difficultyLevel });
     yield qInfo;
   }
   return null;

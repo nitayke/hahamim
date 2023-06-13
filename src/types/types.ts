@@ -1,8 +1,5 @@
 import { Difficulties, IDifficulty } from "~/firebase/types";
 
-export const RabbiTypeKeys = ["תנא", "אמורא", "ראשון", "אחרון"] as const;
-export type IRabbiType = (typeof RabbiTypeKeys)[number];
-
 export const hebrewDifficultyLevelTypes: Record<IDifficulty, string> = {
   easy: "קל",
   medium: "בינוני",
