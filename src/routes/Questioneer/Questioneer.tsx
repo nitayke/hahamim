@@ -1,4 +1,4 @@
-import { convertDifficultyLevelToHebrew, IRabbiType } from "~/types/types";
+import { convertDifficultyLevelToHebrew, IRabbiType, RabbiTypeKeys } from "~/types/types";
 import useTitle from "~/hooks/useTitle";
 import "./Questioneer.scss";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
@@ -57,7 +57,10 @@ function GameFlow() {
     return <>Error Question is Null. Should Go To End Of The Game.</>;
   }
 
-  const handleCheckAnswer = (rabbiType: IRabbiType) => {
+  const handleCheckAnswer = (rabbiType: IRabbiType | string) => {
+    if (!RabbiTypeKeys.includes(rabbiType as any)) {
+      throw new Error(`Invalid Rabbi Type: ${rabbiType}`);
+    }
     if (!state.matches("question")) return;
     const index = question.options.findIndex((option) => option.value === rabbiType);
     if (index === -1) {
@@ -75,39 +78,22 @@ function GameFlow() {
 
     return answeredIndex === index ? "wrong-answer" : "";
   };
+  const optionsDisabled = !state.matches("question");
   return (
     <div className="game-container">
       <h3 className="font-bold text-lg self-center">{`רמת קושי: ${difficultyHebrewFormat}`}</h3>
       <h3 className="font-bold text-lg self-center">{question.title}</h3>
       <div className="answer-btn-group">
-        <button
-          className={`answer-btn ${answeredStyles(0)}`}
-          onClick={() => handleCheckAnswer("תנא")}
-          disabled={!state.matches("question")}
-        >
-          תנא
-        </button>
-        <button
-          className={`answer-btn ${answeredStyles(1)}`}
-          onClick={() => handleCheckAnswer("אמורא")}
-          disabled={!state.matches("question")}
-        >
-          אמורא
-        </button>
-        <button
-          className={`answer-btn ${answeredStyles(2)}`}
-          onClick={() => handleCheckAnswer("ראשון")}
-          disabled={!state.matches("question")}
-        >
-          ראשון
-        </button>
-        <button
-          className={`answer-btn ${answeredStyles(3)}`}
-          onClick={() => handleCheckAnswer("אחרון")}
-          disabled={!state.matches("question")}
-        >
-          אחרון
-        </button>
+        {question.options.map((option, index) => (
+          <button
+            key={option.value}
+            className={`answer-btn ${answeredStyles(index)}`}
+            onClick={() => handleCheckAnswer(option.value)}
+            disabled={optionsDisabled}
+          >
+            {option.label}
+          </button>
+        ))}
       </div>
       <p>{getFormatedTime(elapsedTime)}</p>
       <p>
@@ -193,14 +179,15 @@ function RegisterRecord({ score }: { score: number }) {
     throw new Error("Not implemented");
   };
   useEffect(() => {
-    async function checkTopRank() {
-      const isTopRank = await isRecordInTopRank({ score });
+    isRecordInTopRank(score).then((isTopRank) => {
       if (isTopRank) {
         setIsInTopRank(isTopRank);
       }
-    }
-    checkTopRank();
+    });
   }, [score]);
+
+  if (!isInTopRank) return null;
+
   return (
     <div
       id="enter-record"
