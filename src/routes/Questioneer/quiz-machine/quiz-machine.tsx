@@ -1,6 +1,7 @@
 import { createMachine, assign, interpret } from "xstate";
 import { z } from "zod";
 import { calculateScore } from "./utils";
+import { RabbiInfo } from "~/firebase/types";
 
 interface QuizContext {
   currentQuestion: IQuestion | null;
@@ -15,7 +16,7 @@ interface QuizContext {
 }
 
 const AnswerOption = z.object({
-  value: z.string(),
+  value: RabbiInfo.shape.type,
   label: z.string(),
 });
 export type IAnswerOption = z.infer<typeof AnswerOption>;
@@ -101,22 +102,20 @@ export const quizMachine = createMachine<QuizContext, QuizEvent, QuizStateTypes,
       },
 
       loadQuestion: {
-        invoke: [
-          {
-            src: "getNextQuestion", // passed in as a deps service
-            onDone: {
-              target: QuizStateTypes.checkQuestionValid,
-              actions: assign({
-                currentQuestion: (_, event) => event.data,
-                questionNumber: (ctx) => ctx.questionNumber + 1,
-              }),
-            },
-            onError: {
-              target: QuizStateTypes.error,
-              actions: assign({ error: (_, event) => event.data }),
-            },
+        invoke: {
+          src: "getNextQuestion", // passed in as a deps service
+          onDone: {
+            target: QuizStateTypes.checkQuestionValid,
+            actions: assign({
+              currentQuestion: (_, event) => event.data,
+              questionNumber: (ctx) => ctx.questionNumber + 1,
+            }),
           },
-        ],
+          onError: {
+            target: QuizStateTypes.error,
+            actions: assign({ error: (_, event) => event.data }),
+          },
+        },
       },
 
       checkQuestionValid: {
@@ -167,16 +166,24 @@ export const quizMachine = createMachine<QuizContext, QuizEvent, QuizStateTypes,
 
       reset: {
         invoke: {
-          src: "invalidatQuestions",
+          src: "invalidateQuestions",
           onDone: {
             target: QuizStateTypes.init,
+          },
+          onError: {
+            target: QuizStateTypes.error,
+            actions: assign({ error: (_, event) => event.data }),
           },
         },
       },
 
       error: {
         // log the error
-        entry: (context) => console.error(`Error: ${context.error}`),
+        entry: (context, event) => {
+          console.error(`Error: ${context.error}`);
+          console.error("Context", context);
+          console.error("event", event);
+        },
         type: "final",
       },
     },
@@ -228,9 +235,9 @@ export const quizMachine = createMachine<QuizContext, QuizEvent, QuizStateTypes,
           "onLoadingQuestion is not implemented. Must be passed in as a service as deps injection"
         );
       },
-      invalidatQuestions: async (context) => {
+      invalidateQuestions: async (context) => {
         throw new Error(
-          "invalidatQuestions is not implemented. Must be passed in as a service as deps injection"
+          "invalidateQuestions is not implemented. Must be passed in as a service as deps injection"
         );
       },
     },

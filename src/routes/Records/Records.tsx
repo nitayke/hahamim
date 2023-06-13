@@ -23,8 +23,8 @@ export default function Records() {
         <h2>רשימת השיאים</h2>
         <div id="records">
           {isRecordsLoading && <p>טוען...</p>}
-          {records?.map((record) => (
-            <p key={record.score}>{`${record.score} - ${record.name}`}</p>
+          {records?.toReversed()?.map((record, i) => (
+            <p key={i}>{`${record.score} - ${record.name}`}</p>
           ))}
         </div>
       </div>
