@@ -1,4 +1,14 @@
-import { ref, getDatabase, query, orderByChild, get, increment, update } from "firebase/database";
+import {
+  ref,
+  getDatabase,
+  query,
+  orderByChild,
+  get,
+  increment,
+  update,
+  push,
+  limitToFirst,
+} from "firebase/database";
 import { DB, DBKeys, RecordScore } from "../types";
 
 export async function getRecords() {
@@ -17,8 +27,8 @@ export async function getRecords() {
 
 export async function isRecordInTopRank(score: number) {
   const records = await getRecords();
-  records.sort((a, b) => b.score - a.score);
-  return records.length < 10 || score > records[records.length - 1].score;
+  const lastHighestScore = records[0].score;
+  return records.length < 10 || score > lastHighestScore;
 }
 
 export async function getRecordPosition(score: number) {
@@ -34,11 +44,29 @@ export async function getRecordPosition(score: number) {
     0
   );
 
-  const position = totalCountPlayed - countPlayedWhoHaveHigherScore;
+  const position = countPlayedWhoHaveHigherScore + 1;
 
   await update(scoresRef, {
     [`scores/${calculatedScore}`]: increment(1),
     countPlayed: increment(1),
   });
-  return `${position}/${totalCountPlayed + 1}`;
+  return { position, totalCountPlayed: totalCountPlayed + 1 };
+}
+
+export async function addRecord(newRecord: RecordScore) {
+  const qRef = ref(getDatabase(), DBKeys.records);
+  const qRecords = query(qRef, orderByChild("score"));
+  const snapshot = await get(qRecords);
+  if (snapshot.size < 10) {
+    await push(ref(getDatabase(), DBKeys.records), newRecord);
+    return;
+  }
+  const lowestHighScoreSpanshot = await get(query(qRef, orderByChild("score"), limitToFirst(1)));
+  const lowestHighScoreEntry = Object.entries(lowestHighScoreSpanshot.val())[0] as [
+    string,
+    RecordScore
+  ];
+
+  const lowestHighScoreRef = ref(getDatabase(), `${DBKeys.records}/${lowestHighScoreEntry[0]}`);
+  await update(lowestHighScoreRef, newRecord);
 }
