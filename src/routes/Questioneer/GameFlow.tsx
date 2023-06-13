@@ -65,6 +65,12 @@ function FeedBack() {
     }
     send("NEXT");
   };
+  useEffect(() => {
+    if (state.matches("feedback")) {
+      nextQuestionBtnRef.current?.focus();
+    }
+  }, [state.value]);
+
   return (
     <div className="game-footer" id="game-footer">
       <div className="game-footer-top">
