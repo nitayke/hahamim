@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useTitle from "~/hooks/useTitle";
 
 import "./Navbar.scss";
 import { useState } from "react";
 import useIsMobile from "~/hooks/useIsMobile";
 import useCurrentPageRoute from "~/hooks/useCurrentPageRoute";
+import useUser from "~/hooks/useUser";
+import { auth } from "~/firebase/config";
 
 function Header() {
   const { title, subtitle } = useTitle();
@@ -33,6 +35,8 @@ function Logo() {
 
 export default function Navbar() {
   const currentRoute = useCurrentPageRoute();
+  const { user, isAdmin } = useUser();
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [isMobileMenuActive, setIsMobileMenuActive] = useState(false);
 
@@ -104,6 +108,16 @@ export default function Navbar() {
               אודות
             </Link>
           </li>
+          {user && isAdmin && (
+            <li className="nav-items">
+              <button
+                className="nav-links"
+                onClick={() => auth.signOut().then(() => navigate("/"))}
+              >
+                התנתק
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     </nav>
