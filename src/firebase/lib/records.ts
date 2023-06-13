@@ -15,20 +15,20 @@ export async function getRecords() {
   return records;
 }
 
-export async function isRecordInTopRank({ score }: { score: number }) {
+export async function isRecordInTopRank(score: number) {
   const records = await getRecords();
   records.sort((a, b) => b.score - a.score);
   return records.length < 10 || score > records[records.length - 1].score;
 }
 
-export async function getRecordPosition(originalScore: number) {
-  const score = Math.floor(originalScore / 10);
+export async function getRecordPosition(score: number) {
+  const calculatedScore = Math.floor(score / 10);
   const scoresRef = ref(getDatabase(), DBKeys.scores);
   const scores = (await get(scoresRef)).val() as DB["scores"];
   const totalCountPlayed = scores.countPlayed;
   const scoresInDB = scores.scores as unknown as number[];
 
-  const higherScores = Object.keys(scoresInDB).filter((key) => Number(key) >= score);
+  const higherScores = Object.keys(scoresInDB).filter((key) => Number(key) >= calculatedScore);
   const countPlayedWhoHaveHigherScore = higherScores.reduce(
     (acc, key) => acc + scoresInDB[+key],
     0
@@ -37,7 +37,7 @@ export async function getRecordPosition(originalScore: number) {
   const position = totalCountPlayed - countPlayedWhoHaveHigherScore;
 
   await update(scoresRef, {
-    [score]: increment(1),
+    [`scores/${calculatedScore}`]: increment(1),
     countPlayed: increment(1),
   });
   return `${position}/${totalCountPlayed + 1}`;
