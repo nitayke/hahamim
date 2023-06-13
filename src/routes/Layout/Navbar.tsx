@@ -109,14 +109,30 @@ export default function Navbar() {
             </Link>
           </li>
           {user && isAdmin && (
-            <li className="nav-items">
-              <button
-                className="nav-links"
-                onClick={() => auth.signOut().then(() => navigate("/"))}
-              >
-                התנתק
-              </button>
-            </li>
+            <>
+              <li className="nav-items">
+                <button
+                  className="nav-links"
+                  onClick={() => {
+                    hideMobileMenu();
+                    auth.signOut().then(() => navigate("/"));
+                  }}
+                >
+                  התנתק
+                </button>
+              </li>
+              <li className="nav-items">
+                <button
+                  className="nav-links"
+                  onClick={() => {
+                    hideMobileMenu();
+                    navigate("/admin");
+                  }}
+                >
+                  Admin
+                </button>
+              </li>
+            </>
           )}
         </ul>
       </div>
