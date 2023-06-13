@@ -3,13 +3,11 @@ import useTitle from "~/hooks/useTitle";
 import "./Questioneer.scss";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { getRecordPosition, isRecordInTopRank } from "~/firebase/lib/records";
-import { atom, useAtom } from "jotai";
 import { useMachine } from "@xstate/react";
 import { quizMachine } from "./quiz-machine/quiz-machine";
-import { Quiz } from "./quiz-machine/Quiz";
 import { useGetNextQuestions } from "./useGetNextQuestions";
 import { getFormatedTime } from "./quiz-machine/utils";
-import { NUMBER_OF_QUESTIONS_FOR_EACH_LEVEL, NUMBER_OF_QUESTIONS_TOTAL } from "~/config";
+import { NUMBER_OF_QUESTIONS_TOTAL } from "~/config";
 import { Link, useLocation } from "react-router-dom";
 import { useGlobalLoadingSpinner } from "~/hooks/useLoadingSpinner";
 
@@ -38,14 +36,7 @@ export default function Questioneer() {
 
   const initState = state.matches("init");
   const endState = state.matches("end");
-  // const runningState = !(initState || endState);
   const runningState = state.matches("question") || state.matches("feedback");
-
-  // useEffect(() => {
-  //   if (from === "ClickHandler") {
-  //     service.
-  //   }
-  // }, [from]);
 
   return (
     <MachineContext.Provider value={[state, send, service]}>
