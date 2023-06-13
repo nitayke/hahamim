@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <div className="about-container m-8">
+    <div className="m-8">
       <h3>אודות:</h3>
       <p>
         פעם הכנתי טריוויה על תוכנית טלוויזיה ואלפי ילדים שיחקו בה, וידעו את התשובות למאות שאלות

@@ -118,33 +118,3 @@ optgroup {
   }
 
 }
-
-
-
-
-.smaller {
-  font-size: 0.8rem;
-}
-
-.make-it-green {
-  border: 2px solid #00c200;
-  transform: scale(1.02);
-  transition: 200ms ease;
-}
-
-.make-it-red {
-  border: 2px solid #f10000;
-  transform: scale(1.02);
-  transition: 200ms ease;
-}
-
-.disable-pointer-events {
-  pointer-events: none;
-}
-
-.game-btns {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
-}
