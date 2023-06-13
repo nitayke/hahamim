@@ -1,118 +1,201 @@
-import { IRabbiType } from "~/types/types";
+import { convertDifficultyLevelToHebrew, IRabbiType } from "~/types/types";
 import useTitle from "~/hooks/useTitle";
 import "./Questioneer.scss";
-import { useEffect, useState } from "react";
-import { isRecordInTopRank } from "~/firebase/lib/records";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { getRecordPosition, isRecordInTopRank } from "~/firebase/lib/records";
 import { atom, useAtom } from "jotai";
+import { useMachine } from "@xstate/react";
+import { quizMachine } from "./quiz-machine/quiz-machine";
+import { Quiz } from "./quiz-machine/Quiz";
+import { useGetNextQuestions } from "./useGetNextQuestions";
+import { getFormatedTime } from "./quiz-machine/utils";
+import { NUMBER_OF_QUESTIONS_FOR_EACH_LEVEL, NUMBER_OF_QUESTIONS_TOTAL } from "~/config";
+import { Link, useLocation } from "react-router-dom";
+import { useGlobalLoadingSpinner } from "~/hooks/useLoadingSpinner";
 
-const scoreAtom = atom(0);
+const IMachineHookCB = () => useMachine(quizMachine);
+type IMachineContext = ReturnType<typeof IMachineHookCB>;
+const MachineContext = createContext<IMachineContext>([] as unknown as IMachineContext);
 
 export default function Questioneer() {
-  const [score] = useAtom(scoreAtom);
+  const { from = null } = useLocation().state || {};
 
-  const [startGame, setStartGame] = useState(false);
-  const handleStartGame = () => {
-    setStartGame(true);
+  const { open: openLoadingSpinner, close: closeLoadingSpinner } = useGlobalLoadingSpinner();
+  const onLoadingQuestion = () => () => {
+    openLoadingSpinner();
+    return () => {
+      closeLoadingSpinner();
+    };
   };
+  const { getNextQuestion, reset: resetQuestionsIters } = useGetNextQuestions();
+  const [state, send, service] = useMachine(quizMachine, {
+    services: {
+      getNextQuestion,
+      onLoadingQuestion,
+      invalidatQuestions: async () => resetQuestionsIters(),
+    },
+  });
+
+  const initState = state.matches("init");
+  const endState = state.matches("end");
+  // const runningState = !(initState || endState);
+  const runningState = state.matches("question") || state.matches("feedback");
+
+  // useEffect(() => {
+  //   if (from === "ClickHandler") {
+  //     service.
+  //   }
+  // }, [from]);
 
   return (
-    <>
+    <MachineContext.Provider value={[state, send, service]}>
       <div className="game-page-container">
-        {!startGame && <HeaderStartGame onStartGame={handleStartGame} />}
-        {startGame && <GameFlow />}
-        {!startGame && <EndGame />}
+        {initState && <HeaderStartGame />}
+        {runningState && <GameFlow />}
+        {endState && <EndGame />}
       </div>
-    </>
+    </MachineContext.Provider>
   );
 }
+
 function GameFlow() {
+  const [state, send] = useContext(MachineContext);
+
+  const { currentQuestion: question, elapsedTime, questionNumber, answeredIndex } = state.context;
+  if (question === null) {
+    return <>Error Question is Null. Should Go To End Of The Game.</>;
+  }
+
   const handleCheckAnswer = (rabbiType: IRabbiType) => {
-    throw new Error("Not implemented");
+    if (!state.matches("question")) return;
+    const index = question.options.findIndex((option) => option.value === rabbiType);
+    if (index === -1) {
+      const options = question.options.map((o) => o.value);
+      throw new Error(`Answer not found: ${rabbiType} in ${options.join(",")}`);
+    }
+    send({ type: "ANSWER", answerIndex: index });
   };
-  const handleGoToNextQuestion = () => {
-    throw new Error("Not implemented");
+
+  const difficultyHebrewFormat = convertDifficultyLevelToHebrew(question.difficultyLevel);
+
+  const answeredStyles = (index: number) => {
+    if (!state.matches("feedback") || answeredIndex === null) return "";
+    if (index === question.correctIndex) return "correct-answer";
+
+    return answeredIndex === index ? "wrong-answer" : "";
   };
   return (
-    <div id="game-container" hidden>
-      <h3 id="level"></h3> <h3></h3>
+    <div className="game-container">
+      <h3 className="font-bold text-lg self-center">{`רמת קושי: ${difficultyHebrewFormat}`}</h3>
+      <h3 className="font-bold text-lg self-center">{question.title}</h3>
       <div className="answer-btn-group">
-        <button className="answer-btn" onClick={() => handleCheckAnswer("תנא")}>
+        <button
+          className={`answer-btn ${answeredStyles(0)}`}
+          onClick={() => handleCheckAnswer("תנא")}
+          disabled={!state.matches("question")}
+        >
           תנא
         </button>
-        <button className="answer-btn" onClick={() => handleCheckAnswer("אמורא")}>
+        <button
+          className={`answer-btn ${answeredStyles(1)}`}
+          onClick={() => handleCheckAnswer("אמורא")}
+          disabled={!state.matches("question")}
+        >
           אמורא
         </button>
-        <button className="answer-btn" onClick={() => handleCheckAnswer("ראשון")}>
+        <button
+          className={`answer-btn ${answeredStyles(2)}`}
+          onClick={() => handleCheckAnswer("ראשון")}
+          disabled={!state.matches("question")}
+        >
           ראשון
         </button>
-        <button className="answer-btn" onClick={() => handleCheckAnswer("אחרון")}>
+        <button
+          className={`answer-btn ${answeredStyles(3)}`}
+          onClick={() => handleCheckAnswer("אחרון")}
+          disabled={!state.matches("question")}
+        >
           אחרון
         </button>
       </div>
-      <p id="time"></p>
-      <p id="question-count"></p>
-      <div className="game-footer" id="game-footer" hidden>
-        <div className="game-footer-top">
-          <span className="after-answer-text"></span>
-          <button onClick={handleGoToNextQuestion} className="btn">
-            לשאלה הבאה
-          </button>
-        </div>
-        <div className="game-footer-bottom">
-          <span id="smaller-score"></span>
-          <a id="google" hidden>
+      <p>{getFormatedTime(elapsedTime)}</p>
+      <p>
+        שאלה {questionNumber} מתוך {NUMBER_OF_QUESTIONS_TOTAL}
+      </p>
+      {state.matches("feedback") && <FeedBack />}
+    </div>
+  );
+}
+function FeedBack() {
+  const [state, send] = useContext(MachineContext);
+  const { currentQuestion: question, score, answeredCorrectly } = state.context;
+  const nextQuestionBtnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (nextQuestionBtnRef.current) {
+      nextQuestionBtnRef.current.focus();
+    }
+  }, [nextQuestionBtnRef]);
+
+  return (
+    <div className="game-footer" id="game-footer">
+      <div className="game-footer-top">
+        <span className="after-answer-text"></span>
+        <button onClick={() => send("NEXT")} className="btn" ref={nextQuestionBtnRef}>
+          לשאלה הבאה
+        </button>
+      </div>
+      <div className="game-footer-bottom">
+        <span id="smaller-score">ניקוד: {score}</span>
+        {!answeredCorrectly && (
+          <a href={`https://google.com/search?q=${question?.title}`} target="_blank">
             תלמד עליו קצת
           </a>
-        </div>
+        )}
       </div>
     </div>
   );
 }
-
 function EndGame() {
-  const [score] = useAtom(scoreAtom);
+  const [state] = useContext(MachineContext);
+  const [recordLocation, setRecordLocation] = useState("");
+  const score = state.context.score;
+
+  useEffect(() => {
+    if (recordLocation !== "") return;
+    getRecordPosition(score).then((location) => {
+      setRecordLocation(location);
+    });
+  }, []);
 
   return (
-    <div className="mt-12 w-3/5 text-center" id="end-game-container" hidden>
-      <p>
-        הניקוד שלך הוא: <span id="score"></span> <br /> המיקום שלך בציבור הוא:
-        <span id="location"></span>
-        שכוייח !
-      </p>
-      <RegisterRecord />
+    <div className="mt-12 w-3/5 text-center" id="end-game-container">
+      <p>הניקוד שלך הוא: {score}</p>
+      <p>המיקום שלך בציבור הוא: {recordLocation} שכוייח!</p>
+      <RegisterRecord score={score} />
       <EndGameLinks />
     </div>
   );
 }
 function EndGameLinks() {
-  const handleRestartGame = () => {
-    throw new Error("Not implemented");
-  };
+  const [, send] = useContext(MachineContext);
 
-  const handleNavigateToAddNewQuestion = () => {
-    throw new Error("Not implemented");
-  };
-
-  const handleNavigateToRecordsPage = () => {
-    throw new Error("Not implemented");
-  };
   return (
     <div className="game-page-container">
-      <button onClick={handleRestartGame} className="btn">
+      <button onClick={() => send("RESET")} className="btn">
         משחק חוזר
       </button>
       <p>(השאלות נבחרות רנדומלית מתוך מאגר גדול)</p>
-      <button onClick={handleNavigateToAddNewQuestion} className="btn">
+      <Link to="/add-question" className="btn">
         להוספת שאלה למאגר השאלות
-      </button>
-      <button onClick={handleNavigateToRecordsPage} className="btn">
+      </Link>
+      <Link to="/records" className="btn">
         לרשימת השיאים
-      </button>
+      </Link>
     </div>
   );
 }
-function RegisterRecord() {
-  const [score] = useAtom(scoreAtom);
+function RegisterRecord({ score }: { score: number }) {
   const [isInTopRank, setIsInTopRank] = useState(false);
 
   const handleAddRecord = () => {
@@ -145,20 +228,21 @@ function RegisterRecord() {
   );
 }
 
-function HeaderStartGame({ onStartGame }: { onStartGame: () => void }) {
+function HeaderStartGame() {
+  const [state, send] = useContext(MachineContext);
   const { title, subtitle } = useTitle();
 
   return (
-    <div id="start-container" className="m-12 text-center">
+    <div className="start-container m-12 text-center">
       <h2>
-        {title}- {subtitle}
+        {title} - {subtitle}
       </h2>
       <p>לפניכם שעשועון שמטרתו להכיר יותר את חכמינו ז"ל.</p>
       <p>בכל שאלה יהיה שם של חכם ואתם תצטרכו לדעת מאיזה דור הוא.</p>
       <p>יש שלוש רמות קושי - קל, בינוני, כבד.</p>
       <p>בכל דרגת קושי יהיו 6 שאלות, בסה"כ 18 שאלות.</p>
       <p>השעשועון על זמן, ויש ניקוד לפי הזמן.</p> <p>בהצלחה !</p>
-      <button onClick={onStartGame} className="btn">
+      <button onClick={() => send("START")} className="btn">
         התחל משחק
       </button>
     </div>

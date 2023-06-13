@@ -17,6 +17,9 @@ dependencies:
   '@tanstack/react-query':
     specifier: ^4.29.12
     version: 4.29.12(react-dom@18.2.0)(react@18.2.0)
+  '@xstate/react':
+    specifier: ^3.2.2
+    version: 3.2.2(@types/react@18.2.9)(react@18.2.0)(xstate@4.37.2)
   chart.js:
     specifier: ^4.3.0
     version: 4.3.0
@@ -53,6 +56,12 @@ dependencies:
   sort-by:
     specifier: ^1.2.0
     version: 1.2.0
+  xstate:
+    specifier: ^4.37.2
+    version: 4.37.2
+  zod:
+    specifier: ^3.21.4
+    version: 3.21.4
 
 devDependencies:
   '@types/react':
@@ -1716,6 +1725,26 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@xstate/react@3.2.2(@types/react@18.2.9)(react@18.2.0)(xstate@4.37.2):
+    resolution: {integrity: sha512-feghXWLedyq8JeL13yda3XnHPZKwYDN5HPBLykpLeuNpr9178tQd2/3d0NrH6gSd0sG5mLuLeuD+ck830fgzLQ==}
+    peerDependencies:
+      '@xstate/fsm': ^2.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      xstate: ^4.37.2
+    peerDependenciesMeta:
+      '@xstate/fsm':
+        optional: true
+      xstate:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      use-isomorphic-layout-effect: 1.1.2(@types/react@18.2.9)(react@18.2.0)
+      use-sync-external-store: 1.2.0(react@18.2.0)
+      xstate: 4.37.2
+    transitivePeerDependencies:
+      - '@types/react'
+    dev: false
 
   /acorn-jsx@5.3.2(acorn@8.8.2):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -4074,6 +4103,10 @@ packages:
       signal-exit: 4.0.2
     dev: true
 
+  /xstate@4.37.2:
+    resolution: {integrity: sha512-Qm337O49CRTZ3PRyRuK6b+kvI+D3JGxXIZCTul+xEsyFCVkTFDt5jixaL1nBWcUBcaTQ9um/5CRGVItPi7fveg==}
+    dev: false
+
   /y18n@5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
     engines: {node: '>=10'}
@@ -4136,3 +4169,7 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  /zod@3.21.4:
+    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+    dev: false

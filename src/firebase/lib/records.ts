@@ -33,7 +33,6 @@ export async function getRecordPosition(originalScore: number) {
     (acc, key) => acc + scoresInDB[+key],
     0
   );
-  console.log("countPlayedWhoHaveHigherScore", countPlayedWhoHaveHigherScore);
 
   const position = totalCountPlayed - countPlayedWhoHaveHigherScore;
 
