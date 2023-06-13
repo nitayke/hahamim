@@ -2,7 +2,7 @@ import { atom, useAtom } from "jotai";
 import { useEffect } from "react";
 
 const titleAtom = atom("חזלון");
-const subtitleAtom = atom("שאלון על חכמי ישראל");
+const subtitleAtom = atom("שעשועון על חכמי ישראל");
 
 export default function useTitle() {
   const [title, setTitle] = useAtom(titleAtom);
