@@ -28,14 +28,7 @@ export default function GameFlow() {
     return answeredIndex === index ? "wrong-answer" : "";
   };
   const optionsDisabled = !state.matches("question");
-  useEffect(() => {
-    if (state.matches("question")) {
-      setTimeout(() => {
-        const btn = document.querySelectorAll(".answer-btn") as NodeListOf<HTMLButtonElement>;
-        btn[question.correctIndex].click();
-      }, 120);
-    }
-  }, [state.value, question]);
+
   return (
     <div className="game-container">
       <h3 className="font-bold text-lg self-center">{`רמת קושי: ${difficultyHebrewFormat}`}</h3>
@@ -65,14 +58,6 @@ function FeedBack() {
   const { currentQuestion: question, score, answeredCorrectly } = state.context;
   const nextQuestionBtnRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    if (nextQuestionBtnRef.current) {
-      nextQuestionBtnRef.current.focus();
-      setTimeout(() => {
-        nextQuestionBtnRef.current?.click();
-      }, 120);
-    }
-  }, [nextQuestionBtnRef]);
   const handleNextQuestion = () => {
     if (!state.matches("feedback")) {
       console.warn(`handleNextQuestion should be called only when state.matches("feedback")`);
