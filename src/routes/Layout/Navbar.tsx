@@ -115,10 +115,10 @@ export default function Navbar() {
                   className="nav-links"
                   onClick={() => {
                     hideMobileMenu();
-                    auth.signOut().then(() => navigate("/"));
+                    navigate("/admin");
                   }}
                 >
-                  התנתק
+                  Admin
                 </button>
               </li>
               <li className="nav-items">
@@ -126,10 +126,10 @@ export default function Navbar() {
                   className="nav-links"
                   onClick={() => {
                     hideMobileMenu();
-                    navigate("/admin");
+                    auth.signOut().then(() => window.location.replace("/"));
                   }}
                 >
-                  Admin
+                  התנתק
                 </button>
               </li>
             </>
