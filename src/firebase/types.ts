@@ -9,7 +9,7 @@ export interface DB {
   records: { [key: string]: RecordScore };
   scores: {
     scores: { [key: string]: number };
-    sum: number;
+    countPlayed: number;
   };
 }
 export const Difficulties = ["easy", "medium", "hard"] as const;
@@ -23,6 +23,9 @@ export interface DifficultyTable {
 export interface RabbiInfo {
   name: string;
   type: number;
+}
+export interface RabbiInfoWithDifficulty extends RabbiInfo {
+  difficultyLevel: IDifficulty;
 }
 
 export interface RecordScore {
