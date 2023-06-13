@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 
 import useIsMobile from "~/hooks/useIsMobile";
-import { IRabbiType, RabbiTypeKeys } from "~/types/types";
 import { addQuestion } from "~/firebase/lib/add-question";
 import { useGlobalLoadingSpinner } from "~/hooks/useLoadingSpinner";
 import { Link, useNavigate } from "react-router-dom";
 import "./AddQuestion.scss";
 import { useState } from "react";
+import { IRabbiType, RabbiTypeKeys } from "~/firebase/types";
 
 const FormFields = {
   question: "",
@@ -15,7 +15,6 @@ const FormFields = {
 };
 export default function AddQuestion() {
   const isMobile = useIsMobile();
-  const navigate = useNavigate();
   const [addedQuestion, setAddedQuestion] = useState(false);
   const { open: openLoadingSpinner, close: closeLoadingSpinner } = useGlobalLoadingSpinner();
 
@@ -34,8 +33,6 @@ export default function AddQuestion() {
     try {
       openLoadingSpinner();
       await addQuestion(values);
-      // alert("השאלה נשמרה בהצלחה!");
-      // navigate("/");
       setAddedQuestion(true);
       reset();
     } catch (e) {
