@@ -5,9 +5,11 @@ import "./Layout.scss";
 import Navbar from "./Navbar";
 import { useGlobalLoadingSpinner } from "~/hooks/useLoadingSpinner";
 import Footer from "./Footer";
+import { useSignInAnonymously } from "~/hooks/useUser";
 
 export default function Layout() {
   const { LoadingSpinnerModal } = useGlobalLoadingSpinner();
+  useSignInAnonymously();
   return (
     <>
       <Navbar />

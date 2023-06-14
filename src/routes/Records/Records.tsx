@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import useUser, { useSignInAnnymously } from "~/hooks/useUser";
+import useUser from "~/hooks/useUser";
 import { getRecords } from "~/firebase/lib/records";
 import { getScores } from "~/firebase/lib/scores";
 import ScoresChart from "./ScoresChart";
@@ -15,15 +15,13 @@ export default function Records() {
     { enabled: !!user }
   );
 
-  useSignInAnnymously();
-
   return (
     <div>
       <div className="records-page-container mt-6">
         <h2>רשימת השיאים</h2>
         <div id="records">
           {isRecordsLoading && <p>טוען...</p>}
-          {records?.toReversed()?.map((record, i) => (
+          {records?.reverse()?.map((record, i) => (
             <p key={i}>{`${record.score} - ${record.name}`}</p>
           ))}
         </div>

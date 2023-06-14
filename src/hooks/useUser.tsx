@@ -22,22 +22,28 @@ export default function useUser() {
   return { user, isAdmin, isLoadingUser };
 }
 
-export function useSignInAnnymously() {
-  const { user } = useUser();
+export function useSignInAnonymously({ showLoading = false } = { showLoading: false }) {
+  const { user, isLoadingUser } = useUser();
   const { open, close } = useGlobalLoadingSpinner();
 
   useEffect(() => {
     const signIn = async () => {
-      open();
+      if (showLoading) {
+        open();
+      }
       await signInAnonymously(auth);
-      close();
+      if (showLoading) {
+        close();
+      }
     };
-    if (!user) {
+    if (!isLoadingUser && !user) {
       signIn();
     }
 
     return () => {
-      close();
+      if (showLoading) {
+        close();
+      }
     };
-  }, [user]);
+  }, [user, isLoadingUser]);
 }
