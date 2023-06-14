@@ -230,11 +230,6 @@ export const quizMachine = createMachine<QuizContext, QuizEvent, QuizStateTypes,
           "getNextQuestion is not implemented. Must be passed in as a service as deps injection"
         );
       },
-      onLoadingQuestion: async (context) => {
-        throw new Error(
-          "onLoadingQuestion is not implemented. Must be passed in as a service as deps injection"
-        );
-      },
       invalidateQuestions: async (context) => {
         throw new Error(
           "invalidateQuestions is not implemented. Must be passed in as a service as deps injection"
